@@ -75,18 +75,52 @@ function showToast(message, type = 'success') {
   setTimeout(() => toast.remove(), 3000);
 }
 
-function setButtonLoading(button, isLoading) {
+function setButtonLoading(button, isLoading, text = 'Saving...') {
   if (!button) return;
   if (isLoading) {
     button.disabled = true;
     button.dataset.originalHtml = button.innerHTML;
-    button.innerHTML = '<span class="spinner-inline"></span> Saving...';
+    button.innerHTML = `<span class="spinner-inline"></span> ${text}`;
   } else {
     button.disabled = false;
     if (button.dataset.originalHtml) {
       button.innerHTML = button.dataset.originalHtml;
     }
   }
+}
+
+function showConfirmModal(title, message, onConfirm) {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal" style="max-width: 420px; animation: modalSlideUp 0.2s ease;">
+      <div class="modal-header">
+        <h2>${title}</h2>
+        <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+      </div>
+      <div style="padding: 24px;">
+        <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px; line-height: 1.6;">${message}</p>
+        <div class="modal-actions" style="margin-top: 0; padding-top: 0; border-top: none;">
+          <button type="button" class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+          <button type="button" class="btn btn-danger btn-confirm-action">Delete</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  const confirmBtn = modal.querySelector('.btn-confirm-action');
+  confirmBtn.addEventListener('click', async () => {
+    setButtonLoading(confirmBtn, true, 'Deleting...');
+    try {
+      await onConfirm();
+      modal.remove();
+    } catch(err) {
+      showToast(err.message, 'error');
+      setButtonLoading(confirmBtn, false);
+    }
+  });
+  
+  document.body.appendChild(modal);
 }
 
 // ─── AUTH ────────────────────────────────────────────
@@ -414,13 +448,16 @@ async function saveCoach(e, id) {
   }
 }
 
-async function deleteCoach(id) {
-  if (!confirm('Are you sure you want to delete this coach?')) return;
-  try {
-    await api(`/coaches/${id}`, { method: 'DELETE' });
-    showToast('Coach deleted successfully');
-    navigateTo('coaches');
-  } catch(err) { showToast(err.message, 'error'); }
+function deleteCoach(id) {
+  showConfirmModal(
+    'Delete Coach',
+    'Are you sure you want to delete this coach? This action cannot be undone and will permanently remove them from the database.',
+    async () => {
+      await api(`/coaches/${id}`, { method: 'DELETE' });
+      showToast('Coach deleted successfully');
+      navigateTo('coaches');
+    }
+  );
 }
 
 // ─── BLOGS PAGE ──────────────────────────────────────
@@ -534,13 +571,16 @@ async function saveBlog(e, id) {
   }
 }
 
-async function deleteBlog(id) {
-  if (!confirm('Are you sure you want to delete this blog post?')) return;
-  try {
-    await api(`/blogs/${id}`, { method: 'DELETE' });
-    showToast('Blog deleted successfully');
-    navigateTo('blogs');
-  } catch(err) { showToast(err.message, 'error'); }
+function deleteBlog(id) {
+  showConfirmModal(
+    'Delete Blog Post',
+    'Are you sure you want to delete this blog post? This action cannot be undone and will permanently remove it from the database.',
+    async () => {
+      await api(`/blogs/${id}`, { method: 'DELETE' });
+      showToast('Blog deleted successfully');
+      navigateTo('blogs');
+    }
+  );
 }
 
 // ─── CAREERS PAGE ────────────────────────────────────
@@ -636,13 +676,16 @@ async function saveCareer(e, id) {
   }
 }
 
-async function deleteCareer(id) {
-  if (!confirm('Are you sure you want to delete this job opening?')) return;
-  try {
-    await api(`/careers/${id}`, { method: 'DELETE' });
-    showToast('Opening deleted successfully');
-    navigateTo('careers');
-  } catch(err) { showToast(err.message, 'error'); }
+function deleteCareer(id) {
+  showConfirmModal(
+    'Delete Job Opening',
+    'Are you sure you want to delete this job opening? This action cannot be undone and will permanently remove it from the database.',
+    async () => {
+      await api(`/careers/${id}`, { method: 'DELETE' });
+      showToast('Opening deleted successfully');
+      navigateTo('careers');
+    }
+  );
 }
 
 // ─── APPLICATIONS PAGE ──────────────────────────────
@@ -822,13 +865,16 @@ async function saveTransformation(e, id) {
   }
 }
 
-async function deleteTransformation(id) {
-  if (!confirm('Are you sure you want to delete this transformation?')) return;
-  try {
-    await api(`/transformations/${id}`, { method: 'DELETE' });
-    showToast('Transformation deleted successfully');
-    navigateTo('transformations');
-  } catch(err) { showToast(err.message, 'error'); }
+function deleteTransformation(id) {
+  showConfirmModal(
+    'Delete Transformation',
+    'Are you sure you want to delete this transformation? This action cannot be undone and will permanently remove it from the database.',
+    async () => {
+      await api(`/transformations/${id}`, { method: 'DELETE' });
+      showToast('Transformation deleted successfully');
+      navigateTo('transformations');
+    }
+  );
 }
 
 // ─── ENQUIRIES PAGE ────────────────────────────────────
