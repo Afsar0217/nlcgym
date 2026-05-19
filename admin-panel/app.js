@@ -5,7 +5,7 @@
 const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   ? 'http://localhost:5000/api'
   : (window.location.origin.includes('vercel.app')
-      ? 'https://nlcgym.onrender.com/api' // Replace with your actual production Render URL
+      ? 'https://nlcgym-backend.onrender.com/api' // Replace with your actual production Render URL
       : window.location.origin + '/api');
 const ADMIN_API = API_BASE + '/admin';
 
