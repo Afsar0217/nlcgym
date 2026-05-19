@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/PlansSection.css';
 
 const PlansSection = () => {
@@ -126,10 +127,10 @@ const PlansSection = () => {
               ))}
             </div>
             <div className="plans__card-cta">
-              <button className="cta-button plans__card-cta-btn">
+              <Link to="/get-fit" className="cta-button plans__card-cta-btn">
                 <span>Let's Get Fit</span>
                 <span className="cta-arrow">→</span>
-              </button>
+              </Link>
               <span className="plans__card-terms">Terms and conditions apply*</span>
             </div>
           </div>
