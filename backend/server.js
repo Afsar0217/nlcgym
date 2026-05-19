@@ -48,7 +48,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Serve admin panel static files (located at root level now)
-app.use('/admin', express.static(path.join(__dirname, '..', 'admin-panel', 'dist')));
+app.use('/admin', express.static(path.join(__dirname, '..', 'admin-panel')));
 
 // ─── API ROUTES ──────────────────────────────────────
 
@@ -66,7 +66,7 @@ app.get('/api/health', (req, res) => {
 
 // Serve admin panel SPA — handle all /admin/* routes (located at root level now)
 app.get('/admin/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'admin-panel', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'admin-panel', 'index.html'));
 });
 
 // ─── ERROR HANDLING ──────────────────────────────────
