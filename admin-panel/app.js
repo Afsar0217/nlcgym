@@ -75,6 +75,20 @@ function showToast(message, type = 'success') {
   setTimeout(() => toast.remove(), 3000);
 }
 
+function setButtonLoading(button, isLoading) {
+  if (!button) return;
+  if (isLoading) {
+    button.disabled = true;
+    button.dataset.originalHtml = button.innerHTML;
+    button.innerHTML = '<span class="spinner-inline"></span> Saving...';
+  } else {
+    button.disabled = false;
+    if (button.dataset.originalHtml) {
+      button.innerHTML = button.dataset.originalHtml;
+    }
+  }
+}
+
 // ─── AUTH ────────────────────────────────────────────
 
 async function login(email, password) {
@@ -377,6 +391,8 @@ async function openCoachModal(id = null) {
 async function saveCoach(e, id) {
   e.preventDefault();
   const form = e.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  setButtonLoading(submitBtn, true);
   const formData = new FormData(form);
 
   try {
@@ -393,6 +409,8 @@ async function saveCoach(e, id) {
     navigateTo('coaches');
   } catch(err) {
     showToast(err.message, 'error');
+  } finally {
+    setButtonLoading(submitBtn, false);
   }
 }
 
@@ -486,6 +504,8 @@ async function openBlogModal(id = null) {
 async function saveBlog(e, id) {
   e.preventDefault();
   const form = e.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  setButtonLoading(submitBtn, true);
   const formData = new FormData(form);
   
   // Handle checkboxes (unchecked = not in FormData)
@@ -507,7 +527,11 @@ async function saveBlog(e, id) {
     document.querySelector('.modal-overlay').remove();
     showToast(`Blog ${id ? 'updated' : 'published'} successfully!`);
     navigateTo('blogs');
-  } catch(err) { showToast(err.message, 'error'); }
+  } catch(err) { 
+    showToast(err.message, 'error'); 
+  } finally {
+    setButtonLoading(submitBtn, false);
+  }
 }
 
 async function deleteBlog(id) {
@@ -593,6 +617,8 @@ async function openCareerModal(id = null) {
 async function saveCareer(e, id) {
   e.preventDefault();
   const form = e.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  setButtonLoading(submitBtn, true);
   const data = Object.fromEntries(new FormData(form));
 
   try {
@@ -603,7 +629,11 @@ async function saveCareer(e, id) {
     document.querySelector('.modal-overlay').remove();
     showToast(`Opening ${id ? 'updated' : 'created'} successfully!`);
     navigateTo('careers');
-  } catch(err) { showToast(err.message, 'error'); }
+  } catch(err) { 
+    showToast(err.message, 'error'); 
+  } finally {
+    setButtonLoading(submitBtn, false);
+  }
 }
 
 async function deleteCareer(id) {
@@ -667,11 +697,18 @@ async function updateAppStatus(id, status) {
 
 // ─── EVENT HANDLERS ──────────────────────────────────
 
-window.handleLogin = function(e) {
+window.handleLogin = async function(e) {
   e.preventDefault();
+  const form = e.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  setButtonLoading(submitBtn, true);
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
-  login(email, password);
+  try {
+    await login(email, password);
+  } finally {
+    setButtonLoading(submitBtn, false);
+  }
 };
 
 // Make functions globally accessible
@@ -764,6 +801,8 @@ async function openTransformationModal(id = null) {
 async function saveTransformation(e, id) {
   e.preventDefault();
   const form = e.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  setButtonLoading(submitBtn, true);
   const formData = new FormData(form);
 
   try {
@@ -776,7 +815,11 @@ async function saveTransformation(e, id) {
     document.querySelector('.modal-overlay').remove();
     showToast(`Review ${id ? 'updated' : 'created'} successfully!`);
     navigateTo('transformations');
-  } catch(err) { showToast(err.message, 'error'); }
+  } catch(err) { 
+    showToast(err.message, 'error'); 
+  } finally {
+    setButtonLoading(submitBtn, false);
+  }
 }
 
 async function deleteTransformation(id) {
