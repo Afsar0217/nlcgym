@@ -8,6 +8,7 @@ const API_BASE = (window.location.hostname === 'localhost' || window.location.ho
       ? 'https://nlcgym-backend.onrender.com/api' // Replace with your actual production Render URL
       : window.location.origin + '/api');
 const ADMIN_API = API_BASE + '/admin';
+const logoSrc = window.location.pathname.startsWith('/admin') ? '/admin/images/nlc_logo.png' : 'images/nlc_logo.png';
 
 // ─── SVG ICONS ───────────────────────────────────────
 const icons = {
@@ -151,7 +152,7 @@ function renderLogin() {
   return `
     <div class="login-page">
       <div class="login-card">
-        <div class="login-logo"><img src="/admin/images/nlc_logo.png" alt="NLC"></div>
+        <div class="login-logo"><img src="${logoSrc}" alt="NLC"></div>
         <h1>Admin Panel</h1>
         <p>No Limits CrossFit — Control Panel</p>
         <form onsubmit="handleLogin(event)">
@@ -186,7 +187,7 @@ function renderLayout() {
     <div class="admin-layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-          <img src="/admin/images/nlc_logo.png" alt="NLC">
+          <img src="${logoSrc}" alt="NLC">
           <div class="sidebar-brand">
             <span class="sidebar-brand-name">No Limits CrossFit</span>
             <span class="sidebar-brand-sub">Admin Panel</span>
