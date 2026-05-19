@@ -22,16 +22,20 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
   process.env.FRONTEND_URL || 'http://localhost:5173',
   process.env.ADMIN_URL || 'http://localhost:3000'
-];
+].map(url => url.replace(/\/$/, '')); // Strip trailing slashes
 
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, or Postman)
     if (!origin) return callback(null, true);
     
-    const isAllowed = allowedOrigins.includes(origin) || 
-                      origin.startsWith('http://localhost:') || 
-                      origin.startsWith('http://127.0.0.1:');
+    // Normalize origin to remove trailing slash (if any)
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    
+    const isAllowed = allowedOrigins.includes(normalizedOrigin) || 
+                      normalizedOrigin.endsWith('.vercel.app') ||
+                      normalizedOrigin.startsWith('http://localhost:') || 
+                      normalizedOrigin.startsWith('http://127.0.0.1:');
                       
     if (isAllowed) {
       callback(null, true);
