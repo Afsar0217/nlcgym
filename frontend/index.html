@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/images/nlc_logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Join No Limits CrossFit, the best gym and fitness center in Nizampet, Miyapur, Hyderabad. Expert coaching, personalized training, weight loss, and elite fitness programs." />
+    <meta name="keywords" content="Best CrossFit Gym in Hyderabad, fitness center Nizampet Miyapur, personal training Hyderabad, gym classes near me, weight loss programs, elite fitness coaching" />
+    <title>No Limits CrossFit | Best Gym & Fitness Center in Nizampet, Hyderabad</title>
+    <!-- Preload critical images at browser level — runs before any JS -->
+    <link rel="preload" as="image" href="/images/home_ms1.jpg" />
+    <link rel="preload" as="image" href="/images/home_ms2.jpeg" />
+    <link rel="preload" as="image" href="/images/home_ms3.jpeg" />
+    <link rel="preload" as="image" href="/images/rectangle.png" />
+    <link rel="preload" as="image" href="/images/home_g1.jpg" />
+    <link rel="preload" as="image" href="/images/home_g2.jpg" />
+    <link rel="preload" as="image" href="/images/home_g3.jpg" />
+    <link rel="preload" as="image" href="/images/home_g4.jpg" />
+  </head>
+  <body style="margin: 0; background: #000;">
+    <!-- Hard-coded Splash to prevent any glimpses on reload -->
+    <div id="initial-splash" style="
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    ">
+      <img src="/images/nlc_logo.png" alt="Logo" style="width: 250px; height: auto;">
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

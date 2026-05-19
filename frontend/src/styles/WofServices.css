@@ -1,0 +1,282 @@
+.wof-services {
+    position: relative;
+    width: 100%;
+    min-height: auto;
+    background: #000000;
+    padding: 100px 0;
+}
+
+.wof-services__container {
+    width: 100%;
+    max-width: 1352px;
+    margin: 0 auto;
+    padding: 0 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wof-services--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.wof-services__header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+}
+
+.wof-services__title {
+    font-family: 'Exo', sans-serif;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    background: linear-gradient(89.85deg, #FFFFFF 21.52%, #FF857F 95.15%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.wof-services__subtitle {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #FF3A3A;
+    text-transform: capitalize;
+}
+
+.wof-services__divider {
+    width: 100%;
+    max-width: 1000px;
+    height: 1px;
+    background: #F6F6F6;
+    opacity: 0.1;
+}
+
+/* Result Card */
+.wof-services__card {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    background: #0d0d0d;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: row;
+    padding: 24px;
+    gap: 40px;
+    overflow: hidden;
+}
+
+.wof-services__card-img {
+    width: 45%;
+    height: 460px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.wof-services__card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.wof-services__card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.wof-services__card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wof-services__athlete-name {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    color: #FFFFFF;
+}
+
+.wof-services__card-line {
+    width: 60px;
+    height: 2px;
+    background: #DD3028;
+}
+
+.wof-services__stars {
+    display: flex;
+    gap: 4px;
+}
+
+.wof-services__transformation-desc {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.wof-services__metrics {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    margin-top: 8px;
+}
+
+.wof-services__metric {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wof-services__metric-value {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1;
+    color: #DD3028;
+}
+
+.wof-services__metric-label {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.wof-services__quote {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wof-services__quote-text {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #FFFFFF;
+    font-style: italic;
+}
+
+/* Navigation */
+.wof-services__navigation {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.wof-services__nav-btn {
+    width: 60px;
+    height: 54px;
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wof-services__nav-btn--next {
+    background: #DD3028;
+    border-color: #DD3028;
+}
+
+.wof-services__pagination {
+    display: flex;
+    gap: 12px;
+}
+
+.wof-services__page-num {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.2em;
+    cursor: pointer;
+}
+
+.wof-services__page-num.active {
+    color: #DD3028;
+    font-weight: 600;
+}
+
+.wof-services__page-num:hover {
+    color: #FFFFFF;
+}
+
+.wof-services__nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.wof-services__nav-btn:not(:disabled):hover {
+    transform: scale(1.05);
+}
+
+.wof-services__nav-btn--prev {
+    transform: rotate(0deg);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .wof-services__container {
+        padding: 0 40px;
+    }
+    .wof-services__card {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .wof-services__card-img {
+        width: 100%;
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wof-services {
+        padding: 60px 0;
+    }
+
+    .wof-services__container {
+        padding: 0 24px;
+        gap: 40px;
+    }
+
+    .wof-services__title {
+        font-size: 32px;
+    }
+
+    .wof-services__athlete-name {
+        font-size: 24px;
+    }
+
+    .wof-services__metric-value {
+        font-size: 48px;
+    }
+
+    .wof-services__quote-text {
+        font-size: 18px;
+    }
+}
+

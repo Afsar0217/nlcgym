@@ -1,0 +1,364 @@
+.career-openings {
+    width: 100%;
+    min-height: auto;
+    background: #000000;
+    padding: 100px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.career-openings__container {
+    max-width: 1100px;
+    width: 100%;
+    padding: 0 40px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease-out;
+}
+
+.career-openings__container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.career-openings__header {
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.career-openings__title {
+    font-family: 'Exo', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #F1F1F1;
+}
+
+.pink-text {
+    color: #F8B4B4; /* Light pinkish color matching img1 */
+}
+
+.career-openings__intro {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 500px;
+}
+
+.career-openings__grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+}
+
+.job-card {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px;
+    gap: 20px;
+    width: calc(50% - 20px);
+    max-width: 440px;
+    min-height: 220px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.job-card:hover {
+    border-color: #DD3028;
+    background: #121212;
+    transform: translateY(-5px);
+}
+
+.job-card__header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.job-card__title {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #FFFFFF;
+}
+
+.job-card__type {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: #DD3028;
+    text-transform: uppercase;
+}
+
+.job-card__description {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.job-card__apply {
+    margin-top: auto;
+    padding: 12px 24px;
+    background: #DD3028;
+    border-radius: 4px;
+    border: none;
+    color: #FFFFFF;
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.job-card__apply:hover {
+    background: #8F1510;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .job-card {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .career-openings {
+        padding: 60px 0;
+    }
+
+
+    .career-openings__container {
+        padding: 0 24px;
+    }
+
+    .career-openings__title {
+        font-size: 40px;
+    }
+
+    .job-card {
+        padding: 24px;
+    }
+}
+
+/* ===== APPLICATION MODAL ===== */
+.application-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 24px;
+    z-index: 9999;
+    overflow-y: auto;
+    backdrop-filter: blur(4px);
+}
+
+.application-modal {
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 520px;
+    padding: 36px;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.application-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.application-modal-header h3 {
+    font-family: 'Exo', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #FFFFFF;
+}
+
+.application-modal-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 28px;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+.application-modal-close:hover {
+    color: #FFFFFF;
+}
+
+.application-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.application-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.application-form-group label {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.application-form-group input,
+.application-form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.application-form-group input:focus,
+.application-form-group textarea:focus {
+    border-color: #DD3028;
+}
+
+.application-form-group input[type="file"] {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.application-form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.application-error {
+    color: #ef4444;
+    font-size: 13px;
+    font-family: 'Inter Tight', sans-serif;
+}
+
+/* Success State */
+.application-success {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.application-success-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.application-success h3 {
+    font-family: 'Exo', sans-serif;
+    font-size: 24px;
+    color: #FFFFFF;
+    margin-bottom: 12px;
+}
+
+.application-success p {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+/* Certification Yes/No Toggle */
+.certification-toggle {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.cert-btn {
+    flex: 1;
+    padding: 12px 20px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cert-btn:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.cert-btn--active {
+    background: rgba(221, 48, 40, 0.12);
+    border-color: #DD3028;
+    color: #DD3028;
+}
+
+/* Certificate File Tags */
+.cert-file-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.cert-file-tag {
+    display: inline-block;
+    padding: 5px 12px;
+    background: rgba(221, 48, 40, 0.1);
+    border: 1px solid rgba(221, 48, 40, 0.2);
+    border-radius: 20px;
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+

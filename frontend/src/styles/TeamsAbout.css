@@ -1,0 +1,173 @@
+.teams-about {
+    position: relative;
+    width: 100%;
+    min-height: auto;
+    background: #000000;
+    padding: 100px 0;
+    overflow: hidden;
+}
+
+.teams-about__container {
+    width: 100%;
+    max-width: 1352px;
+    margin: 0 auto;
+    padding: 0 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.teams-about--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.teams-about__intro {
+    width: 100%;
+    max-width: 700px;
+    font-family: 'Inter Tight', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.6;
+    text-transform: capitalize;
+    color: #FFFFFF;
+}
+
+.teams-about__founder-area {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    width: 100%;
+}
+
+.teams-about__divider {
+    width: 100%;
+    height: 1px;
+    background: #F6F6F6;
+    opacity: 0.2;
+}
+
+.teams-about__content-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 80px;
+    width: 100%;
+}
+
+/* Founder Card */
+.teams-about__founder-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 420px;
+}
+
+.teams-about__founder-img {
+    width: 100%;
+    height: 480px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.teams-about__founder-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.teams-about__founder-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.teams-about__founder-name {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #FFFFFF;
+}
+
+.teams-about__founder-title {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+}
+
+/* Quote Block */
+.teams-about__quote-block {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.teams-about__quote-icon {
+    width: 44px;
+    height: 40px;
+}
+
+.teams-about__quote-text {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.3;
+    color: #FFFFFF;
+    text-transform: capitalize;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .teams-about__container {
+        padding: 0 40px;
+    }
+    .teams-about__content-grid {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 60px;
+    }
+    .teams-about__quote-block {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .teams-about {
+        padding: 60px 0;
+    }
+
+    .teams-about__container {
+        padding: 0 24px;
+        gap: 40px;
+    }
+
+    .teams-about__intro {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .teams-about__founder-area {
+        gap: 40px;
+    }
+
+    .teams-about__founder-img {
+        height: 360px;
+    }
+
+    .teams-about__quote-text {
+        font-size: 24px;
+    }
+}
+

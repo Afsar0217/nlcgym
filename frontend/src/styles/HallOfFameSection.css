@@ -1,0 +1,190 @@
+/* ===== HALL OF FAME SECTION ===== */
+.hall-of-fame {
+  position: relative;
+  width: 100%;
+  background: #000000;
+  padding: 100px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hall-of-fame__title {
+  font-family: 'Exo', sans-serif;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.hall-of-fame__mosaic {
+  position: relative;
+  width: 100%;
+  max-width: 1352px;
+  height: 700px;
+  margin-bottom: 60px;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+  /* Ensure children stay within bounds */
+  padding: 20px;
+}
+
+.hall-of-fame__mosaic--visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hall-of-fame__item {
+  position: absolute;
+  border-radius: 8px;
+  overflow: visible;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.5);
+  will-change: transform;
+  transition: box-shadow 0.3s ease;
+}
+
+.hall-of-fame__item:hover {
+  box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.7);
+}
+
+.hall-of-fame__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Badges */
+.hall-of-fame__badge {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.hall-of-fame__badge--heart { top: -10px; left: -10px; }
+.hall-of-fame__badge--heart-small { bottom: -8px; right: -8px; }
+.hall-of-fame__badge--like { bottom: -10px; right: -10px; }
+
+/* Dynamic Badge Positions */
+.hall-of-fame__badge--bottom-right { bottom: -10px; right: -10px; }
+.hall-of-fame__badge--bottom-left { bottom: -10px; left: -10px; }
+.hall-of-fame__badge--top-right { top: -10px; right: -10px; }
+.hall-of-fame__badge--top-left { top: -10px; left: -10px; }
+
+/* Reviews */
+.hall-of-fame__review {
+  position: absolute;
+  background: #FFFFFF;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 200px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+.hall-of-fame__review--top-right { top: -10px; left: 75%; }
+.hall-of-fame__review--right { top: 20%; left: 70%; }
+.hall-of-fame__review--top-left { top: -40px; right: 60%; }
+.hall-of-fame__review--left { top: 20%; right: 70%; }
+.hall-of-fame__review--bottom-left { bottom: -10px; right: 75%; }
+
+.hall-of-fame__stars {
+  display: flex;
+  gap: 4px;
+}
+
+.hall-of-fame__review-text {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 11px;
+  line-height: 14px;
+  color: #121212;
+  font-weight: 500;
+}
+
+.hall-of-fame__body {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+  color: #DD3028;
+  max-width: 800px;
+  margin-bottom: 40px;
+}
+
+.hall-of-fame__cta-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .hall-of-fame {
+    padding: 80px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hall-of-fame {
+    padding: 60px 24px;
+  }
+
+  .hall-of-fame__title {
+    font-size: 40px;
+    margin-bottom: 30px;
+  }
+
+  .hall-of-fame__mosaic {
+    height: 750px;
+    margin-bottom: 40px;
+  }
+
+  .hall-of-fame__item {
+    box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .hall-of-fame__review {
+    width: 140px;
+    padding: 8px;
+    left: 60% !important; /* Force better positioning on small screens */
+  }
+
+  .hall-of-fame__review-text {
+    font-size: 9px;
+    line-height: 12px;
+  }
+
+  .hall-of-fame__body {
+    font-size: 15px;
+    line-height: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hall-of-fame__title {
+    font-size: 32px;
+  }
+
+  .hall-of-fame__mosaic {
+    height: 650px;
+  }
+
+  .hall-of-fame__review {
+    width: 120px;
+  }
+}

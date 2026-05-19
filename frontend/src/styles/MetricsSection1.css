@@ -1,0 +1,245 @@
+/* ===== METRICS SECTION 1 ===== */
+.metrics1 {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 120px 60px;
+  background: linear-gradient(90deg, rgba(221, 48, 40, 0.4) 0%, rgba(143, 21, 16, 0.4) 100%);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.metrics1__bg-texture {
+  position: absolute;
+  inset: 0;
+  background: url('/images/rectangle.png') center/cover;
+  mix-blend-mode: overlay;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.metrics1__cards {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 1392px;
+}
+
+.metrics1__card {
+  position: relative;
+  width: 360px;
+  max-width: 100%;
+  height: 320px;
+  background: #000000;
+  border: 1px solid #F6F6F6;
+  box-shadow: 10px 14px 14px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.metrics1__card--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.metrics1__card:hover {
+  transform: translateY(-8px);
+  box-shadow: 10px 20px 30px rgba(0, 0, 0, 0.5);
+}
+
+.metrics1__card-top {
+  height: 82px;
+  background: #000000;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 28px;
+}
+
+.metrics1__card-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  filter: invert(1);
+}
+
+.metrics1__card-body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 82px;
+  bottom: 0;
+  background: #1F1F1F;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 48px;
+  gap: 24px;
+}
+
+.metrics1__card-number {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 600;
+  font-size: 80px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(43.49deg, #F1F1F1 20.61%, #C4C4C4 79.39%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.metrics1__card-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  color: #F1F1F1;
+}
+
+/* Dots - hidden on desktop */
+.metrics1__dots {
+  display: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .metrics1 {
+    padding: 80px 40px;
+  }
+  
+  .metrics1__card {
+    width: calc(33.33% - 10px);
+    height: 350px;
+  }
+  
+  .metrics1__card-number {
+    font-size: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .metrics1 {
+    padding: 60px 20px;
+  }
+  
+  .metrics1__cards {
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .metrics1__card {
+    width: 100%;
+    max-width: 424px;
+    height: 320px;
+  }
+  
+  .metrics1__card-number {
+    font-size: 90px;
+  }
+}
+
+@media (max-width: 480px) {
+  .metrics1 {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    padding: 40px 0;
+    background: linear-gradient(90deg, rgba(221, 48, 40, 0.4) 0%, rgba(143, 21, 16, 0.4) 100%);
+    overflow: hidden;
+  }
+
+  .metrics1__bg-texture {
+    opacity: 0.7;
+    transform: rotate(90deg);
+    transform-origin: center;
+  }
+
+  .metrics1__cards {
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 20px;
+    padding: 0 24px;
+    justify-content: flex-start;
+  }
+
+  .metrics1__cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  .metrics1__card {
+    width: 300px;
+    min-width: 300px;
+    height: 300px;
+    scroll-snap-align: center;
+    border: 0.84px solid #F6F6F6;
+    box-shadow: 8.4px 11.8px 11.8px rgba(0, 0, 0, 0.35);
+  }
+
+  .metrics1__card:hover {
+    transform: none;
+  }
+
+  .metrics1__card-top {
+    height: 60px;
+  }
+
+  .metrics1__card-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .metrics1__card-body {
+    top: 60px;
+    padding: 0 32px;
+  }
+
+  .metrics1__card-number {
+    font-size: 80px;
+  }
+
+  .metrics1__card-label {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  /* Show dot pagination */
+  .metrics1__dots {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 8px;
+    gap: 10px;
+    background: #FFFFFF;
+    margin-top: 24px;
+    z-index: 2;
+  }
+
+  .metrics1__dot {
+    width: 10px;
+    height: 10px;
+    background: #121212;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .metrics1__dot--active {
+    background: linear-gradient(90deg, #DD3028 0%, #8F1510 100%);
+  }
+}

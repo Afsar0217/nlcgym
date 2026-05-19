@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap');
+
+/* ===== CSS RESET & GLOBALS ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Inter Tight', sans-serif;
+  background: #121212;
+  color: #FFFFFF;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --lava-red: linear-gradient(90deg, #DD3028 0%, #8F1510 100%);
+  --lava-red-start: #DD3028;
+  --lava-red-end: #8F1510;
+  --red-primary: #DD3028;
+  --red-dark: #8F1510;
+  --red-light: #FF7C7C;
+  --red-accent: #FF3A3A;
+  --red-cta: #C82922;
+  --red-cta-dark: #621411;
+  
+  --bg-dark: #121212;
+  --bg-darker: #000000;
+  --bg-card: #1F1F1F;
+  --bg-card-alt: #141414;
+  
+  --text-white: #FFFFFF;
+  --text-light: #F1F1F1;
+  --text-light-2: #F6F6F6;
+  --text-muted: #8F8F8F;
+  --text-dark: #121212;
+  
+  --font-heading: 'Exo', sans-serif;
+  --font-body: 'Inter Tight', sans-serif;
+  
+  --border-radius-sm: 6px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 30px;
+  --border-radius-full: 36px;
+  
+  --transition-base: 0.3s ease;
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== UTILITY CLASSES ===== */
+.gradient-text {
+  background: linear-gradient(89.85deg, #FFFFFF 21.52%, #FF857F 95.15%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-metallic {
+  background: linear-gradient(43.49deg, #F1F1F1 20.61%, #C4C4C4 79.39%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cta-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 6px 6px 12px;
+  gap: 16px;
+  background: linear-gradient(270deg, #C82922 0%, #621411 100%);
+  border: 1px solid #FF7C7C;
+  backdrop-filter: blur(3px);
+  border-radius: 12px;
+  color: #FFFFFF;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.02em;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(221, 48, 40, 0.4);
+}
+
+.cta-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  width: 35.68px;
+  height: 34.56px;
+  background: linear-gradient(180deg, #DD3028 0%, #8F1510 100%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-size: 14px;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #DD3028;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF3A3A;
+}
+
+/* ===== MOBILE RESPONSIVE GLOBALS ===== */
+@media (max-width: 480px) {
+  .cta-button {
+    padding: 6px 6px 6px 12px;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 17px;
+    border-radius: 10px;
+  }
+
+  .cta-arrow {
+    width: 30px;
+    height: 30px;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+}
+
+/* ===== TEXTURE OVERLAY ===== */
+.grudge-texture {
+  position: relative;
+}
+
+.grudge-texture::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/background-grudge.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.15; /* Subtle texture */
+  pointer-events: none; /* Allows interaction with content below */
+  z-index: 1; /* Sits above the background but below content */
+}
+
+/* Ensure content in textured sections stays above the layer */
+.grudge-texture > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== APP LAYOUT WRAPPER ===== */
+.app-content-wrapper {
+  width: 100%;
+  position: relative;
+  z-index: 100;
+}
+

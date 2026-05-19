@@ -1,0 +1,332 @@
+.getfit-page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #121212;
+}
+
+/* Hero Section */
+.getfit-hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    background: #121212;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 80px;
+}
+
+.getfit-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.getfit-hero__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.getfit-hero__bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180.76deg, rgba(0, 0, 0, 0) 47.56%, #000000 99.32%),
+                linear-gradient(180deg, #000000 -39.61%, rgba(0, 0, 0, 0) 87.71%);
+    z-index: 1;
+}
+
+.getfit-hero__content {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.getfit-hero__content--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.getfit-hero__about {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.getfit-hero__title {
+    font-family: 'Exo', sans-serif;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.getfit-hero__arrow {
+    display: flex;
+    align-items: center;
+}
+
+.getfit-hero__tagline {
+    max-width: 450px;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 1.1;
+    text-align: right;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, #DD3028 0%, #8F1510 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.getfit-hero__scroll-indicator {
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.6;
+    animation: bounce 2s infinite;
+    z-index: 2;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+    40% {transform: translateX(-50%) translateY(-10px);}
+    60% {transform: translateX(-50%) translateY(-5px);}
+}
+
+@media (max-width: 1024px) {
+    .getfit-hero {
+        padding-bottom: 60px;
+    }
+    .getfit-hero__content {
+        padding: 0 40px;
+    }
+    .getfit-hero__title {
+        font-size: 44px;
+    }
+    .getfit-hero__tagline {
+        font-size: 28px;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .getfit-hero {
+        height: 100vh;
+        padding-bottom: 40px;
+    }
+
+    .getfit-hero__content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 32px;
+        padding: 0 24px;
+    }
+
+    .getfit-hero__about {
+        gap: 12px;
+    }
+
+    .getfit-hero__title {
+        font-size: 32px;
+    }
+
+    .getfit-hero__tagline {
+        text-align: left;
+        font-size: 24px;
+        max-width: 100%;
+    }
+}
+
+/* Form Section */
+.getfit-form-section {
+  padding: 80px 20px;
+  background-color: #121212;
+  position: relative;
+  z-index: 2;
+}
+
+.getfit-form__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+.getfit-form__text h2 {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 600;
+  font-size: 42px;
+  color: #FFFFFF;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.getfit-form__text p {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+.getfit-form__wrapper {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 40px;
+}
+
+.getfit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.getfit-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.getfit-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.getfit-form__group label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #FFFFFF;
+}
+
+.getfit-form__group input,
+.getfit-form__group select,
+.getfit-form__group textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 16px;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.getfit-form__group input:focus,
+.getfit-form__group select:focus,
+.getfit-form__group textarea:focus {
+  outline: none;
+  border-color: #DD3028;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.getfit-form__group select option {
+  background: #121212;
+  color: #fff;
+}
+
+.getfit-form__submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px;
+  background: #DD3028;
+  color: #FFFFFF;
+  border: none;
+  padding: 16px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.getfit-form__submit:hover {
+  opacity: 0.9;
+}
+
+.getfit-form__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.getfit-form__error {
+  padding: 12px;
+  background: rgba(221, 48, 40, 0.1);
+  border: 1px solid rgba(221, 48, 40, 0.3);
+  color: #DD3028;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.getfit-form__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.getfit-form__success svg {
+  width: 64px;
+  height: 64px;
+  color: #28dd60;
+  margin-bottom: 20px;
+}
+
+.getfit-form__success h3 {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 28px;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+}
+
+.getfit-form__success p {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .getfit-form__container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .getfit-hero__title {
+    font-size: 40px;
+  }
+  .getfit-form__row {
+    grid-template-columns: 1fr;
+  }
+  .getfit-form__wrapper {
+    padding: 24px;
+  }
+}

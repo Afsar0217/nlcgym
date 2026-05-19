@@ -1,0 +1,259 @@
+/* ===== LOCATION SECTION ===== */
+.location {
+  position: relative;
+  width: 100%;
+  min-height: 720px;
+  background: #121212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.location__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.location__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.location__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(102, 102, 102, 0) 15.52%, rgba(218, 47, 39, 0.2) 88.76%),
+              linear-gradient(0deg, rgba(18, 18, 18, 0.3), rgba(18, 18, 18, 0.3));
+}
+
+.location__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 20px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.location__content--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.location__map {
+  width: 500px;
+  height: 500px;
+  background: #FFFFFF;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.location__map iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.location__info {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  background: #121212;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Location Toggle */
+.location__toggle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 32px;
+  background: transparent;
+}
+
+.location__toggle-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 54px;
+  border-radius: 8px;
+  font-size: 20px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.location__toggle-arrow--left {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.location__toggle-arrow--right {
+  background: #DD3028;
+  border: 1.5px solid #DD3028;
+}
+
+.location__toggle-city {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.location__city-name {
+  font-family: 'Exo', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+/* Address Details */
+.location__details {
+  display: flex;
+  flex-direction: column;
+  padding: 0 40px 40px;
+  gap: 24px;
+}
+
+.location__detail-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.location__detail-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #DD3028;
+}
+
+.location__detail-value {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  max-width: 450px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .location__content {
+    flex-direction: column;
+  }
+  
+  .location__map {
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+  }
+  
+  .location__info {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 768px) {
+  .location {
+    min-height: auto;
+    padding: 40px 0;
+  }
+  
+  .location__map {
+    height: 300px;
+  }
+  
+  .location__city-name {
+    font-size: 24px;
+  }
+  
+  .location__detail-label {
+    font-size: 24px;
+  }
+  
+  .location__toggle-arrow {
+    width: 50px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .location {
+    width: 100%;
+    min-height: 920px;
+  }
+
+  .location__content {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 0 20px;
+    width: 400px;
+    max-width: calc(100% - 40px);
+  }
+
+  .location__map {
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+  }
+
+  .location__info {
+    width: 100%;
+    max-width: 400px;
+    gap: 16px;
+  }
+
+  .location__toggle {
+    padding: 12px 16px;
+    background: rgba(18, 18, 18, 0.6);
+    border: 1px solid rgba(246, 246, 246, 0.4);
+    gap: 10px;
+  }
+
+  .location__toggle-arrow {
+    width: 66px;
+    height: 64px;
+    border-radius: 11px;
+  }
+
+  .location__city-name {
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .location__details {
+    padding: 30px 20px;
+    gap: 22px;
+    background: rgba(18, 18, 18, 0.6);
+    border: 1px solid rgba(246, 246, 246, 0.4);
+  }
+
+  .location__detail-label {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  .location__detail-value {
+    font-size: 16px;
+    line-height: 19px;
+  }
+}
+
