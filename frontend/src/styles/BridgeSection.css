@@ -98,7 +98,11 @@
 
 @media (max-width: 480px) {
     .bridge__cta-wrapper.mobile-only {
-        display: flex;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        margin: 24px auto 0 auto !important;
     }
 }
 

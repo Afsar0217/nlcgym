@@ -561,7 +561,7 @@
 
     .trainer-card {
         width: 280px;
-        height: 400px;
+        height: 480px;
         flex-shrink: 0;
         scroll-snap-align: center;
     }

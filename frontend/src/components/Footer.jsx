@@ -25,7 +25,12 @@ const Footer = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const footerLinks = ['Team', 'Services', 'Wall of Fame', 'Blogs', 'Career', 'Gallery'];
+  const footerLinks = [
+    { name: 'Team', path: '/team' },
+    { name: 'Wall of Fame', path: '/wall-of-fame' },
+    { name: 'Blogs', path: '/blogs' },
+    { name: 'Career', path: '/career' }
+  ];
 
   const isTeamsPage = location.pathname === '/team';
 
@@ -89,11 +94,10 @@ const Footer = () => {
             <img src="/images/nlc_logo.png" alt="No Limits CrossFit" />
           </div>
           <div className="footer__links">
-
             {footerLinks.map((link) => (
-              <a key={link} href={`#${link.toLowerCase().replace(/\s+/g, '-')}`} className="footer__link">
-                {link}
-              </a>
+              <Link key={link.name} to={link.path} className="footer__link">
+                {link.name}
+              </Link>
             ))}
           </div>
         </div>
