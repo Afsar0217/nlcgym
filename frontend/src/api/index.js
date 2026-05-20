@@ -5,22 +5,10 @@
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-// Simple in-memory cache to store API responses
-const cache = new Map();
-
-async function fetchJSON(url, useCache = true) {
-  if (useCache && cache.has(url)) {
-    return cache.get(url);
-  }
-
+async function fetchJSON(url) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`API error: ${res.status}`);
-  const data = await res.json();
-  
-  if (useCache) {
-    cache.set(url, data);
-  }
-  return data;
+  return res.json();
 }
 
 // ─── COACHES ─────────────────────────────────────────

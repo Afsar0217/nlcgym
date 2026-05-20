@@ -433,10 +433,7 @@ async function saveCoach(e, id) {
     const url = id ? `/coaches/${id}` : '/coaches';
     const method = id ? 'PUT' : 'POST';
     
-    const headers = {};
-    if (state.token) headers['Authorization'] = `Bearer ${state.token}`;
-
-    await fetch(`${ADMIN_API}${url}`, { method, headers, body: formData });
+    await api(url, { method, body: formData });
     
     document.querySelector('.modal-overlay').remove();
     showToast(`Coach ${id ? 'updated' : 'created'} successfully!`);
@@ -556,10 +553,8 @@ async function saveBlog(e, id) {
   try {
     const url = id ? `/blogs/${id}` : '/blogs';
     const method = id ? 'PUT' : 'POST';
-    const headers = {};
-    if (state.token) headers['Authorization'] = `Bearer ${state.token}`;
 
-    await fetch(`${ADMIN_API}${url}`, { method, headers, body: formData });
+    await api(url, { method, body: formData });
     
     document.querySelector('.modal-overlay').remove();
     showToast(`Blog ${id ? 'updated' : 'published'} successfully!`);
@@ -851,10 +846,8 @@ async function saveTransformation(e, id) {
   try {
     const url = id ? `/transformations/${id}` : '/transformations';
     const method = id ? 'PUT' : 'POST';
-    const headers = {};
-    if (state.token) headers['Authorization'] = `Bearer ${state.token}`;
 
-    await fetch(`${ADMIN_API}${url}`, { method, headers, body: formData });
+    await api(url, { method, body: formData });
     document.querySelector('.modal-overlay').remove();
     showToast(`Review ${id ? 'updated' : 'created'} successfully!`);
     navigateTo('transformations');
