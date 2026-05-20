@@ -133,7 +133,25 @@ const PlansSection = () => {
               </Link>
               <span className="plans__card-terms">Terms and conditions apply*</span>
             </div>
-          </div>
+        </div>
+      </div>
+
+        {/* Mobile Arrows */}
+        <div className="plans__mobile-arrows">
+          <button
+            className="plans__arrow plans__arrow--left"
+            onClick={() => navigate(-1)}
+            aria-label="Previous plan"
+          >
+            ←
+          </button>
+          <button
+            className="plans__arrow plans__arrow--right"
+            onClick={() => navigate(1)}
+            aria-label="Next plan"
+          >
+            →
+          </button>
         </div>
 
         {/* Right Content */}

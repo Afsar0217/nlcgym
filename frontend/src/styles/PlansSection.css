@@ -225,6 +225,10 @@
   gap: 40px;
 }
 
+.plans__mobile-arrows {
+  display: none;
+}
+
 .plans__arrow {
   display: flex;
   justify-content: center;
@@ -377,6 +381,15 @@
     display: none !important;
   }
 
+  .plans__mobile-arrows {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    order: 3;
+    width: 100%;
+    z-index: 2;
+  }
 
   .plans__arrow {
     width: 60px;
