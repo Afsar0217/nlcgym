@@ -7,7 +7,8 @@ import MetricsSection2 from '../components/MetricsSection2';
 import BridgeSection from '../components/BridgeSection';
 import GallerySection from '../components/GallerySection';
 import TeamsSection from '../components/TeamsSection';
-import PlansSection from '../components/PlansSection';
+// import PlansSection from '../components/PlansSection';
+import GoogleReviewsSection from '../components/GoogleReviewsSection';
 import LocationSection from '../components/LocationSection';
 import HallOfFameSection from '../components/HallOfFameSection';
 import BlogSection from '../components/BlogSection';
@@ -38,7 +39,8 @@ const HomePage = ({ showIntro, isIntroFinished, onIntroComplete }) => {
           <BridgeSection />
           <GallerySection />
           <TeamsSection />
-          <PlansSection />
+          {/* <PlansSection /> Hidden as per client request, replaced by Google Reviews */}
+          <GoogleReviewsSection />
           <LocationSection />
           <HallOfFameSection />
           <BlogSection />

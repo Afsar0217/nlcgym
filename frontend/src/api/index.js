@@ -76,3 +76,9 @@ export async function submitEnquiryForm(formData) {
   }
   return res.json();
 }
+
+// ─── GOOGLE REVIEWS ──────────────────────────────────
+
+export async function getGoogleReviews() {
+  return fetchJSON(`${API_BASE}/reviews`);
+}

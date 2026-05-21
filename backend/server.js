@@ -12,6 +12,7 @@ const careerRoutes = require('./routes/careerRoutes');
 const transformationRoutes = require('./routes/transformationRoutes');
 const adminRoutes  = require('./routes/adminRoutes');
 const enquiryRoutes = require('./routes/enquiryRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -62,6 +63,7 @@ app.use('/api/careers',  careerRoutes);
 app.use('/api/transformations', transformationRoutes);
 app.use('/api/admin',    adminRoutes);
 app.use('/api/enquiries', enquiryRoutes);
+app.use('/api/reviews',  reviewRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
