@@ -862,10 +862,12 @@ form .form-group { margin-bottom: 16px; }
     font-size: 20px;
   }
 
-  /* Add button takes full width on mobile */
+  /* Add button: always full width, never overflow */
   .page-header > .btn {
     width: 100%;
+    max-width: 100%;
     justify-content: center;
+    box-sizing: border-box;
   }
 
   /* Stats: 2 columns on tablet / 768px */
@@ -899,6 +901,9 @@ form .form-group { margin-bottom: 16px; }
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .mobile-card {
@@ -909,12 +914,19 @@ form .form-group { margin-bottom: 16px; }
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
   .mobile-card__top {
     display: flex;
     align-items: center;
     gap: 12px;
+    width: 100%;
+    overflow: hidden;
+    min-width: 0;
   }
 
   .mobile-card__img {
@@ -953,6 +965,8 @@ form .form-group { margin-bottom: 16px; }
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
   }
 
   .mobile-card__sub {
