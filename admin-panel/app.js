@@ -370,6 +370,27 @@ function renderCoaches() {
           `).join('')}
         </tbody>
       </table>
+      <div class="mobile-card-list">
+        ${state.coaches.map(c => `
+          <div class="mobile-card">
+            <div class="mobile-card__top">
+              ${c.image_url ? `<img class="mobile-card__img" src="${c.image_url}" alt="${c.name}">` : '<div class="mobile-card__img-placeholder">👤</div>'}
+              <div class="mobile-card__info">
+                <div class="mobile-card__name">${c.name}</div>
+                <div class="mobile-card__sub">${c.title}</div>
+              </div>
+            </div>
+            <div class="mobile-card__meta">
+              <span class="badge ${c.is_active ? 'badge-active' : 'badge-inactive'}">${c.is_active ? 'Active' : 'Inactive'}</span>
+              ${c.specialty ? `<span style="font-size:11px;color:var(--text-muted)">${c.specialty}</span>` : ''}
+            </div>
+            <div class="mobile-card__actions">
+              <button class="btn btn-secondary btn-sm" onclick="openCoachModal(${c.id})">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteCoach(${c.id})">Delete</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
     </div>`}
   `;
 }
@@ -485,6 +506,27 @@ function renderBlogs() {
           `).join('')}
         </tbody>
       </table>
+      <div class="mobile-card-list">
+        ${state.blogs.map(b => `
+          <div class="mobile-card">
+            <div class="mobile-card__top">
+              ${b.image_url ? `<img class="mobile-card__img" src="${b.image_url}" alt="${b.title}">` : '<div class="mobile-card__img-placeholder">📝</div>'}
+              <div class="mobile-card__info">
+                <div class="mobile-card__name">${b.title}</div>
+                <div class="mobile-card__sub">${b.category}</div>
+              </div>
+            </div>
+            <div class="mobile-card__meta">
+              <span class="badge ${b.is_published ? 'badge-published' : 'badge-draft'}">${b.is_published ? 'Published' : 'Draft'}</span>
+              ${b.is_featured ? '<span class="badge badge-featured">Featured</span>' : ''}
+            </div>
+            <div class="mobile-card__actions">
+              <button class="btn btn-secondary btn-sm" onclick="openBlogModal(${b.id})">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteBlog(${b.id})">Delete</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
     </div>`}
   `;
 }
@@ -605,6 +647,26 @@ function renderCareers() {
           `).join('')}
         </tbody>
       </table>
+      <div class="mobile-card-list">
+        ${state.careers.map(c => `
+          <div class="mobile-card">
+            <div class="mobile-card__top">
+              <div class="mobile-card__img-placeholder">💼</div>
+              <div class="mobile-card__info">
+                <div class="mobile-card__name">${c.title}</div>
+                <div class="mobile-card__sub">${c.type} · ${c.location || 'On-site'}</div>
+              </div>
+            </div>
+            <div class="mobile-card__meta">
+              <span class="badge ${c.is_active ? 'badge-active' : 'badge-inactive'}">${c.is_active ? 'Active' : 'Closed'}</span>
+            </div>
+            <div class="mobile-card__actions">
+              <button class="btn btn-secondary btn-sm" onclick="openCareerModal(${c.id})">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteCareer(${c.id})">Delete</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
     </div>`}
   `;
 }
@@ -722,6 +784,29 @@ function renderApplications() {
           `).join('')}
         </tbody>
       </table>
+      <div class="mobile-card-list">
+        ${state.applications.map(a => `
+          <div class="mobile-card">
+            <div class="mobile-card__top">
+              <div class="mobile-card__img-placeholder">👤</div>
+              <div class="mobile-card__info">
+                <div class="mobile-card__name">${a.full_name}</div>
+                <div class="mobile-card__sub">${a.email}</div>
+              </div>
+            </div>
+            <div class="mobile-card__meta">
+              <span class="badge badge-${a.status}">${a.status}</span>
+              <span style="font-size:11px;color:var(--text-muted)">${a.job_title || ''} · ${new Date(a.created_at).toLocaleDateString()}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px">
+              <select onchange="updateAppStatus(${a.id}, this.value)" style="flex:1;padding:8px 10px;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;color:var(--text-primary);font-size:12px;">
+                ${['pending','reviewed','shortlisted','rejected'].map(s => `<option value="${s}" ${a.status===s?'selected':''}>${s}</option>`).join('')}
+              </select>
+              ${a.resume_url ? `<a href="${a.resume_url}" target="_blank" class="btn btn-secondary btn-sm">Resume</a>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
     </div>`}
   `;
 }
@@ -796,6 +881,27 @@ function renderTransformations() {
           `).join('')}
         </tbody>
       </table>
+      <div class="mobile-card-list">
+        ${state.transformations.map(t => `
+          <div class="mobile-card">
+            <div class="mobile-card__top">
+              ${t.image_url ? `<img class="mobile-card__img" src="${t.image_url}" alt="${t.name}">` : '<div class="mobile-card__img-placeholder">⭐</div>'}
+              <div class="mobile-card__info">
+                <div class="mobile-card__name">${t.name}</div>
+                <div class="mobile-card__sub">${t.title}</div>
+              </div>
+            </div>
+            <div class="mobile-card__meta">
+              <span class="badge ${t.is_active ? 'badge-active' : 'badge-inactive'}">${t.is_active ? 'Active' : 'Inactive'}</span>
+              ${t.metrics ? `<span style="font-size:11px;color:var(--text-muted)">${t.metrics}</span>` : ''}
+            </div>
+            <div class="mobile-card__actions">
+              <button class="btn btn-secondary btn-sm" onclick="openTransformationModal(${t.id})">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteTransformation(${t.id})">Delete</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
     </div>`}
   `;
 }
@@ -900,6 +1006,30 @@ function renderEnquiries() {
           `).join('')}
         </tbody>
       </table>
+      <div class="mobile-card-list">
+        ${state.enquiries.map(e => `
+          <div class="mobile-card">
+            <div class="mobile-card__top">
+              <div class="mobile-card__img-placeholder">✉️</div>
+              <div class="mobile-card__info">
+                <div class="mobile-card__name">${e.name}</div>
+                <div class="mobile-card__sub">${e.email} · ${e.phone}</div>
+              </div>
+            </div>
+            <div class="mobile-card__meta">
+              <span style="font-size:11px;color:var(--text-muted)">${e.plan_type || 'N/A'} · ${new Date(e.created_at).toLocaleDateString()}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px">
+              <select onchange="handleEnquiryStatusChange(${e.id}, event)" style="flex:1;padding:8px 10px;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;color:var(--text-primary);font-size:12px;">
+                <option value="new" ${e.status==='new'?'selected':''}>New</option>
+                <option value="contacted" ${e.status==='contacted'?'selected':''}>Contacted</option>
+                <option value="closed" ${e.status==='closed'?'selected':''}>Closed</option>
+              </select>
+              <button class="btn btn-secondary btn-sm" onclick="viewEnquiry(${e.id})">Details</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
     </div>`}
   `;
 }
