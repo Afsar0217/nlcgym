@@ -35,7 +35,7 @@ const fetchReviewsFromGoogle = async () => {
 exports.getReviews = async (req, res) => {
   try {
     // 1. Check if we have cached reviews in DB
-    const { rows } = await db.query('SELECT value, updated_at FROM system_cache WHERE key = $1', [CACHE_KEY]);
+    const { rows } = await db.query('SELECT value, updated_at FROM google_reviews WHERE key = $1', [CACHE_KEY]);
     
     let cachedData = rows[0];
     const now = new Date();
@@ -49,7 +49,7 @@ exports.getReviews = async (req, res) => {
         // Save to DB
         const valueJson = JSON.stringify(freshReviews);
         await db.query(
-          `INSERT INTO system_cache (key, value, updated_at) 
+          `INSERT INTO google_reviews (key, value, updated_at) 
            VALUES ($1, $2, NOW()) 
            ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW()`,
           [CACHE_KEY, valueJson]
