@@ -840,14 +840,26 @@ form .form-group { margin-bottom: 16px; }
     display: block;
   }
 
+  .admin-layout {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
   /* Main content: no left margin since sidebar is off-screen */
   .main-content {
     margin-left: 0;
+    min-width: 0;
+    width: 100%;
+    max-width: 100vw;
   }
 
   /* Page padding: leave room for the hamburger button at top */
   #page-content {
     padding: 72px 16px 24px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   /* Page header: stack title + action button vertically */
