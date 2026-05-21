@@ -64,9 +64,9 @@ const MetricsSection1 = () => {
   }, []);
 
   const metrics = [
-    { icon: '/images/icon.png', value: 35, suffix: '+', label: 'Certified Coaches' },
-    { icon: '/images/icon.png', value: 7, suffix: '+', label: 'Registered Gyms' },
-    { icon: '/images/icon.png', value: 427, suffix: '+', label: 'Members Trained' },
+    { icon: '/images/icon.png', value: 6, suffix: '+', label: 'Certified Coaches' },
+    { icon: '/images/icon.png', value: 2, suffix: '', label: 'Registered Gyms' },
+    { icon: '/images/icon.png', value: 2000, suffix: '+', label: 'Members Trained' },
   ];
 
   return (
