@@ -107,7 +107,7 @@
   display: flex;
   gap: 24px;
   width: max-content;
-  animation: scroll 35s linear infinite;
+  animation: scroll 80s linear infinite;
 }
 
 .google-reviews__track:hover {
