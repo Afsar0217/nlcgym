@@ -49,48 +49,7 @@
   color: #fff;
 }
 
-.google-reviews__header-right {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-}
 
-.google-reviews__google-rating {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 12px 20px;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.google-reviews__google-score {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff;
-}
-
-.google-reviews__google-stars {
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-}
-
-.google-reviews__google-logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  padding: 6px;
-}
-
-/* Remove original arrows */
-.google-reviews__arrows {
-  display: none;
-}
 
 /* New Marquee Container */
 .google-reviews__marquee {
