@@ -11,31 +11,33 @@ const TeamsSection = () => {
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    const fetchTrainers = async () => {
-      try {
-        const data = await getCoaches();
-        // Take the first 6 coaches for the homepage highlight
-        setTrainers(data.slice(0, 6));
-      } catch (err) {
-        console.error('Failed to fetch coaches:', err);
-        // Fallback to dummy data if API fails
-        setTrainers([
-          { name: 'Abhishek Goud', title: 'Experience Trainer', image_url: '/images/square.png' },
-          { name: 'Sahil Goud', title: 'Transformation Expert', image_url: '/images/square.png' },
-          { name: 'Rahul Verma', title: 'Elite Coach', image_url: '/images/square.png' },
-          { name: 'Sneha Kapur', title: 'Nutritionist & Coach', image_url: '/images/square.png' },
-          { name: 'Vikram Singh', title: 'Strength Coach', image_url: '/images/square.png' },
-          { name: 'Ananya Rao', title: 'Yoga & Mobility', image_url: '/images/square.png' },
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTrainers();
+    // Only fetch if we don't have the data yet
+    if (!getCachedCoaches()) {
+      const fetchTrainers = async () => {
+        try {
+          const data = await getCoaches();
+          setTrainers(data.slice(0, 6));
+        } catch (err) {
+          console.error('Failed to fetch coaches:', err);
+          // Fallback to dummy data if API fails
+          setTrainers([
+            { name: 'Abhishek Goud', title: 'Experience Trainer', image_url: '/images/square.png' },
+            { name: 'Sahil Goud', title: 'Transformation Expert', image_url: '/images/square.png' },
+            { name: 'Rahul Verma', title: 'Elite Coach', image_url: '/images/square.png' },
+            { name: 'Sneha Kapur', title: 'Nutritionist & Coach', image_url: '/images/square.png' },
+            { name: 'Vikram Singh', title: 'Strength Coach', image_url: '/images/square.png' },
+            { name: 'Ananya Rao', title: 'Yoga & Mobility', image_url: '/images/square.png' },
+          ]);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchTrainers();
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.2 }
+      { threshold: 0.1 } // Reduced threshold so it triggers earlier, preventing lag when it comes into view
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();

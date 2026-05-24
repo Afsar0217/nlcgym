@@ -172,17 +172,19 @@ const CoachesSection = () => {
 
   // Fetch coaches from API
   useEffect(() => {
-    const fetchCoaches = async () => {
-      try {
-        const data = await getCoaches();
-        setCoaches(data);
-      } catch (err) {
-        console.error('Failed to load coaches:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCoaches();
+    if (!getCachedCoaches()) {
+      const fetchCoaches = async () => {
+        try {
+          const data = await getCoaches();
+          setCoaches(data);
+        } catch (err) {
+          console.error('Failed to load coaches:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchCoaches();
+    }
   }, []);
 
   useEffect(() => {

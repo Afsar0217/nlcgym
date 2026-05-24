@@ -10,19 +10,22 @@ const GoogleReviewsSection = () => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const data = await getGoogleReviews();
-        setReviews(data || []);
-      } catch (err) {
-        console.error('Failed to fetch reviews:', err);
-        // Fallback to empty array if error
-        setReviews([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchReviews();
+    // Only fetch if we don't have the data yet
+    if (!getCachedReviews()) {
+      const fetchReviews = async () => {
+        try {
+          const data = await getGoogleReviews();
+          setReviews(data || []);
+        } catch (err) {
+          console.error('Failed to fetch reviews:', err);
+          // Fallback to empty array if error
+          setReviews([]);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchReviews();
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
