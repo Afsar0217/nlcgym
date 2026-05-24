@@ -4,32 +4,37 @@ const PLACE_ID = 'ChIJD62kQQ-NyzsRyogM6WOI4ZE';
 const CACHE_KEY = 'google_reviews';
 const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-const fetchReviewsFromGoogle = async () => {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+const fetchReviewsFromSerpApi = async () => {
+  const apiKey = process.env.SERPAPI_KEY;
   if (!apiKey) {
-    throw new Error('GOOGLE_PLACES_API_KEY is not set in environment variables');
+    throw new Error('SERPAPI_KEY is not set in environment variables');
   }
 
-  const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${PLACE_ID}&fields=reviews&key=${apiKey}`;
+  const url = `https://serpapi.com/search.json?engine=google_maps_reviews&place_id=${PLACE_ID}&hl=en&api_key=${apiKey}`;
   
   const response = await fetch(url);
   const data = await response.json();
 
-  if (data.status !== 'OK') {
-    throw new Error(`Google API Error: ${data.status} - ${data.error_message || ''}`);
+  if (data.error) {
+    throw new Error(`SerpApi Error: ${data.error}`);
   }
 
-  // Filter for 5-star reviews and sort by time, or just take what they give us
-  // The API usually returns up to 5 reviews.
-  let reviews = data.result?.reviews || [];
+  let rawReviews = data.reviews || [];
   
-  // Sort reviews to show highest rating first, then most recent
-  reviews = reviews.sort((a, b) => {
-    if (b.rating !== a.rating) return b.rating - a.rating;
-    return b.time - a.time;
-  });
+  // Map SerpApi format to exactly match what the frontend expects
+  // (which was originally based on the official Google API format)
+  let formattedReviews = rawReviews.map(r => ({
+    author_name: r.user?.name || 'Anonymous',
+    profile_photo_url: r.user?.thumbnail || '',
+    rating: r.rating || 5,
+    text: r.snippet || '',
+    relative_time_description: r.date || ''
+  }));
 
-  return reviews;
+  // Sort reviews to show highest rating first
+  formattedReviews = formattedReviews.sort((a, b) => b.rating - a.rating);
+
+  return formattedReviews;
 };
 
 exports.getReviews = async (req, res) => {
@@ -43,8 +48,8 @@ exports.getReviews = async (req, res) => {
     // 2. If no cache OR cache is older than CACHE_TTL, fetch new ones
     if (!cachedData || (now - new Date(cachedData.updated_at)) > CACHE_TTL) {
       try {
-        console.log('Fetching fresh reviews from Google API...');
-        const freshReviews = await fetchReviewsFromGoogle();
+        console.log('Fetching fresh reviews from SerpApi...');
+        const freshReviews = await fetchReviewsFromSerpApi();
         
         // Save to DB
         const valueJson = JSON.stringify(freshReviews);
