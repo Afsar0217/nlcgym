@@ -98,10 +98,11 @@
   z-index: 3;
 }
 
-.hall-of-fame__review--top-right { top: -15px; left: 75%; }
-.hall-of-fame__review--bottom-right { bottom: -15px; left: 75%; }
-.hall-of-fame__review--top-left { top: -15px; right: 75%; }
-.hall-of-fame__review--bottom-left { bottom: -15px; right: 75%; }
+.hall-of-fame__review--top-right { top: -10px; left: 75%; }
+.hall-of-fame__review--right { top: 20%; left: 70%; }
+.hall-of-fame__review--top-left { top: -40px; right: 60%; }
+.hall-of-fame__review--left { top: 20%; right: 70%; }
+.hall-of-fame__review--bottom-left { bottom: -10px; right: 75%; }
 
 .hall-of-fame__stars {
   display: flex;
@@ -161,11 +162,8 @@
   .hall-of-fame__review {
     width: 140px;
     padding: 8px;
+    left: 60% !important; /* Force better positioning on small screens */
   }
-  .hall-of-fame__review--top-right { left: 65%; right: auto; }
-  .hall-of-fame__review--bottom-right { left: 65%; right: auto; }
-  .hall-of-fame__review--top-left { right: 65%; left: auto; }
-  .hall-of-fame__review--bottom-left { right: 65%; left: auto; }
 
   .hall-of-fame__review-text {
     font-size: 9px;

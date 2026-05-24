@@ -6,22 +6,24 @@ import '../styles/Skeleton.css';
 
 /* Pre-defined layout positions — keeps cards randomly scattered but with safe spacing */
 const LAYOUT_POSITIONS = [
-  { top: 8,  left: 4,  size: 140, type: 'review', pos: 'bottom-right' },
-  { top: 18, left: 24, size: 155, type: 'review', pos: 'top-right' },
-  { top: 5,  left: 50, size: 130, type: 'review', pos: 'bottom-left' },
-  { top: 22, left: 74, size: 145, type: 'review', pos: 'top-left' },
-  { top: 50, left: 8,  size: 135, type: 'review', pos: 'top-right' },
-  { top: 42, left: 40, size: 150, type: 'review', pos: 'bottom-right' },
-  { top: 55, left: 62, size: 130, type: 'review', pos: 'bottom-left' },
-  { top: 48, left: 85, size: 140, type: 'review', pos: 'top-left' },
+  { top: 8,  left: 4,  size: 140, type: 'review', pos: 'top-right' },
+  { top: 18, left: 24, size: 155, type: 'badge', badge: 'heart' },
+  { top: 5,  left: 50, size: 130, type: 'review', pos: 'top-right' },
+  { top: 22, left: 74, size: 145, type: 'badge', badge: 'like' },
+  { top: 50, left: 8,  size: 135, type: 'badge', badge: 'heart' },
+  { top: 42, left: 40, size: 150, type: 'review', pos: 'top-right' },
+  { top: 55, left: 62, size: 130, type: 'badge', badge: 'like' },
+  { top: 48, left: 85, size: 140, type: 'review', pos: 'top-right' },
 ];
 
 const MOBILE_LAYOUT = [
-  { top: 2,  left: 5,  size: 105, type: 'review', pos: 'bottom-right' },
-  { top: 20, left: 52, size: 120, type: 'review', pos: 'bottom-left' },
-  { top: 40, left: 8,  size: 115, type: 'review', pos: 'top-right' },
-  { top: 60, left: 48, size: 120, type: 'review', pos: 'top-left' },
-  { top: 80, left: 10, size: 110, type: 'review', pos: 'top-right' },
+  { top: 5,  left: 5,  size: 100, type: 'badge', badge: 'like', badgePos: 'bottom-right' },
+  { top: 12, left: 50, size: 120, type: 'review', pos: 'top-right' },
+  { top: 25, left: 20, size: 130, type: 'badge', badge: 'heart', badgePos: 'bottom-left' },
+  { top: 45, left: 5,  size: 140, type: 'review', pos: 'top-right' },
+  { top: 55, left: 55, size: 140, type: 'review', pos: 'bottom-left' },
+  { top: 75, left: 15, size: 90,  type: 'badge', badge: 'like', badgePos: 'bottom-right' },
+  { top: 80, left: 65, size: 90,  type: 'badge', badge: 'heart', badgePos: 'bottom-left' },
 ];
 
 /* Truncate review text to first ~5 words */
