@@ -28,7 +28,8 @@ const fetchReviewsFromSerpApi = async () => {
     profile_photo_url: r.user?.thumbnail || '',
     rating: r.rating || 5,
     text: r.snippet || '',
-    relative_time_description: r.date || ''
+    relative_time_description: r.date || '',
+    author_url: r.link || '#'
   }));
 
   // Sort reviews to show highest rating first
