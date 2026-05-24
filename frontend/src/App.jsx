@@ -10,13 +10,14 @@ import BlogDetailPage from './pages/BlogDetailPage';
 import CareerPage from './pages/CareerPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import GetFitPage from './pages/GetFitPage';
-import { getCoaches, getBlogs, getTransformations } from './api';
+import { getCoaches, getBlogs, getTransformations, getGoogleReviews } from './api';
 
 // Pre-fetch all critical data and images for the home page
 const prefetchData = () => {
   getCoaches().catch(() => {});
   getBlogs('All', 3).catch(() => {});
   getTransformations().catch(() => {});
+  getGoogleReviews().catch(() => {});
 
   // Pre-load critical metric images
   const imagesToPreload = [

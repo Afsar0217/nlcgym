@@ -11,50 +11,23 @@ async function fetchJSON(url) {
   return res.json();
 }
 
-// In-memory/localStorage caching wrapper
-async function fetchWithCache(url, cacheKey, fallbackData = null) {
-  const cached = localStorage.getItem(cacheKey);
-  
-  // Background fetch to ensure data is always fresh for the next load
-  const fetchPromise = fetchJSON(url).then(data => {
-    localStorage.setItem(cacheKey, JSON.stringify(data));
-    return data;
-  }).catch(err => {
-    console.error(`Background fetch failed for ${cacheKey}:`, err);
-    throw err;
-  });
-
-  // If we have cached data, return it instantly while the background fetch updates the cache silently
-  if (cached) {
-    try {
-      return JSON.parse(cached);
-    } catch (e) {
-      // Ignore parse error and wait for fetch
-    }
-  }
-
-  // If we have instant fallback data provided (for the very first visit), return that!
-  if (fallbackData) {
-    return fallbackData;
-  }
-  
-  // If no cache and no fallback, wait for the network
-  return fetchPromise;
-}
-
 // ─── COACHES ─────────────────────────────────────────
 
-// Hardcoded real data to instantly render on the very first visit before the API resolves
-const INITIAL_COACHES = [
-  { name: 'Rakesh', title: 'Fat Loss', image_url: '/images/square.png', transformations: 50, hours: '10k+', specialty: 'Fat Loss', description: 'Expert in shedding fat quickly.' },
-  { name: 'Santosh', title: 'Bodybuilding', image_url: '/images/square.png', transformations: 40, hours: '8k+', specialty: 'Bodybuilding', description: 'Building muscle mass and strength.' },
-  { name: 'Madini', title: 'Special Population Training', image_url: '/images/square.png', transformations: 30, hours: '5k+', specialty: 'Special Population Training', description: 'Training for all conditions.' },
-  { name: 'Akhil', title: 'Overall Fitness & Strength', image_url: '/images/square.png', transformations: 60, hours: '12k+', specialty: 'Overall Fitness', description: 'Achieve peak functional fitness.' },
-  { name: 'Samuel', title: 'Boxing', image_url: '/images/square.png', transformations: 20, hours: '4k+', specialty: 'Boxing', description: 'Professional boxing coach.' }
-];
+let coachesCache = null;
+let coachesPromise = null;
 
 export async function getCoaches() {
-  return fetchWithCache(`${API_BASE}/coaches`, 'nlc_coaches_cache', INITIAL_COACHES);
+  if (coachesCache) return coachesCache;
+  if (!coachesPromise) {
+    coachesPromise = fetchJSON(`${API_BASE}/coaches`).then(data => {
+      coachesCache = data;
+      return data;
+    }).catch(err => {
+      coachesPromise = null; // reset on error
+      throw err;
+    });
+  }
+  return coachesPromise;
 }
 
 // ─── BLOGS ───────────────────────────────────────────
@@ -119,6 +92,25 @@ export async function submitEnquiryForm(formData) {
 
 // ─── GOOGLE REVIEWS ──────────────────────────────────
 
+let reviewsCache = null;
+let reviewsPromise = null;
+
 export async function getGoogleReviews() {
-  return fetchJSON(`${API_BASE}/reviews`);
+  if (reviewsCache) return reviewsCache;
+  if (!reviewsPromise) {
+    reviewsPromise = fetchJSON(`${API_BASE}/reviews`).then(data => {
+      reviewsCache = data;
+      return data;
+    }).catch(err => {
+      reviewsPromise = null;
+      throw err;
+    });
+  }
+  return reviewsPromise;
+}
+
+// ─── PRELOADER ───────────────────────────────────────
+export function preloadData() {
+  getCoaches().catch(() => {});
+  getGoogleReviews().catch(() => {});
 }
