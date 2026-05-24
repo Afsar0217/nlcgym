@@ -986,14 +986,14 @@ function renderEnquiries() {
     ${state.enquiries.length === 0 ? '<div class="empty-state"><div class="empty-icon">' + icons.enquiries + '</div><h3>No enquiries yet</h3><p>Leads will appear here.</p></div>' : `
     <div class="data-table-wrapper">
       <table class="data-table">
-        <thead><tr><th>Date</th><th>Name</th><th>Contact</th><th>Plan Type</th><th>Status</th><th>Action</th></tr></thead>
+        <thead><tr><th>Date</th><th>Name</th><th>Contact</th><th>Fitness Goals</th><th>Status</th><th>Action</th></tr></thead>
         <tbody>
           ${state.enquiries.map(e => `
             <tr>
               <td>${new Date(e.created_at).toLocaleDateString()}</td>
               <td><strong>${e.name}</strong></td>
               <td>${e.email}<br/><small style="color:#aaa;">${e.phone}</small></td>
-              <td>${e.plan_type || 'N/A'}</td>
+              <td>${e.fitness_goals || 'N/A'}</td>
               <td>
                 <select onchange="handleEnquiryStatusChange(${e.id}, event)" style="padding:4px 8px; border-radius:4px; border:1px solid #333; background:#222; color:#fff; font-size:13px;">
                   <option value="new" ${e.status === 'new' ? 'selected' : ''}>New</option>
@@ -1017,7 +1017,7 @@ function renderEnquiries() {
               </div>
             </div>
             <div class="mobile-card__meta">
-              <span style="font-size:11px;color:var(--text-muted)">${e.plan_type || 'N/A'} · ${new Date(e.created_at).toLocaleDateString()}</span>
+              <span style="font-size:11px;color:var(--text-muted)">${e.fitness_goals || 'N/A'} · ${new Date(e.created_at).toLocaleDateString()}</span>
             </div>
             <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px">
               <select onchange="handleEnquiryStatusChange(${e.id}, event)" style="flex:1;padding:8px 10px;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;color:var(--text-primary);font-size:12px;">
@@ -1066,8 +1066,8 @@ function viewEnquiry(id) {
             <div style="font-size: 17px; font-weight: 500; color: #fff;">${e.name}</div>
           </div>
           <div>
-            <div style="color: #777; font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.8px; margin-bottom: 8px;">Plan of Interest</div>
-            <div style="font-size: 17px; font-weight: 600; color: #DD3028;">${e.plan_type || 'N/A'}</div>
+            <div style="color: #777; font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.8px; margin-bottom: 8px;">Fitness Goals</div>
+            <div style="font-size: 17px; font-weight: 600; color: #DD3028;">${e.fitness_goals || 'N/A'}</div>
           </div>
           <div>
             <div style="color: #777; font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.8px; margin-bottom: 8px;">Email Address</div>
@@ -1076,6 +1076,14 @@ function viewEnquiry(id) {
           <div>
             <div style="color: #777; font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.8px; margin-bottom: 8px;">Phone Number</div>
             <div style="font-size: 15px; color: #ddd;">${e.phone}</div>
+          </div>
+          <div>
+            <div style="color: #777; font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.8px; margin-bottom: 8px;">Age & Gender</div>
+            <div style="font-size: 14px; color: #ddd;">${e.age || 'N/A'} yr, ${e.gender || 'N/A'}</div>
+          </div>
+          <div>
+            <div style="color: #777; font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.8px; margin-bottom: 8px;">Training Mode</div>
+            <div style="font-size: 14px; color: #ddd;">${e.training_mode || 'N/A'}</div>
           </div>
           <div>
             <div style="color: #777; font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.8px; margin-bottom: 8px;">Submitted On</div>

@@ -5,16 +5,16 @@ const db = require('../config/db');
 // @access  Public
 const submitEnquiry = async (req, res, next) => {
   try {
-    const { name, email, phone, plan_type, message } = req.body;
+    const { name, email, phone, age, gender, training_mode, fitness_goals, message } = req.body;
 
     if (!name || !email || !phone) {
       return res.status(400).json({ success: false, message: 'Name, email and phone are required' });
     }
 
     const newEnquiry = await db.query(
-      `INSERT INTO enquiries (name, email, phone, plan_type, message) 
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [name, email, phone, plan_type || null, message || null]
+      `INSERT INTO enquiries (name, email, phone, age, gender, training_mode, fitness_goals, message) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [name, email, phone, age || null, gender || null, training_mode || null, fitness_goals || null, message || null]
     );
 
     res.status(201).json({

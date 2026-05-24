@@ -13,7 +13,10 @@ const GetFitPage = () => {
     name: '',
     email: '',
     phone: '',
-    plan_type: 'Gym Membership',
+    age: '',
+    gender: '',
+    training_mode: '',
+    fitness_goals: 'Fat loss',
     message: ''
   });
 
@@ -35,7 +38,7 @@ const GetFitPage = () => {
       await submitEnquiryForm(formData);
 
       setStatus({ loading: false, success: true, error: null });
-      setFormData({ name: '', email: '', phone: '', plan_type: 'Gym Membership', message: '' });
+      setFormData({ name: '', email: '', phone: '', age: '', gender: '', training_mode: '', fitness_goals: 'Fat loss', message: '' });
       
       // Reset success message after 5 seconds
       setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 5000);
@@ -91,7 +94,7 @@ const GetFitPage = () => {
       <section className="getfit-form-section">
         <div className="getfit-form__container">
           <div className="getfit-form__text">
-            <h2>Ready to Push Your Limits?</h2>
+            <h2>Contact Form</h2>
             <p>
               Leave your details below and our fitness consultants will reach out to design the perfect protocol for your goals. 
               We are excited to welcome you into the No Limits CrossFit family!
@@ -151,21 +154,76 @@ const GetFitPage = () => {
                   </div>
                 </div>
 
+                <div className="getfit-form__row">
+                  <div className="getfit-form__group">
+                    <label htmlFor="age">Age</label>
+                    <input 
+                      type="number" 
+                      id="age" 
+                      name="age" 
+                      placeholder="e.g. 25"
+                      value={formData.age}
+                      onChange={handleChange}
+                      min="10"
+                      max="100"
+                    />
+                  </div>
+                  <div className="getfit-form__group">
+                    <label htmlFor="gender">Gender</label>
+                    <select 
+                      id="gender" 
+                      name="gender"
+                      value={formData.gender}
+                      onChange={handleChange}
+                    >
+                      <option value="" disabled>Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="getfit-form__group" style={{ marginBottom: '24px' }}>
+                  <label>Are you looking for online/offline training?</label>
+                  <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: 'normal', color: '#ccc' }}>
+                      <input 
+                        type="radio" 
+                        name="training_mode" 
+                        value="Online" 
+                        checked={formData.training_mode === 'Online'} 
+                        onChange={handleChange} 
+                        style={{ width: 'auto', accentColor: '#DD3028' }}
+                      />
+                      Online Training
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: 'normal', color: '#ccc' }}>
+                      <input 
+                        type="radio" 
+                        name="training_mode" 
+                        value="Offline" 
+                        checked={formData.training_mode === 'Offline'} 
+                        onChange={handleChange} 
+                        style={{ width: 'auto', accentColor: '#DD3028' }}
+                      />
+                      Offline Training
+                    </label>
+                  </div>
+                </div>
+
                 <div className="getfit-form__group">
-                  <label htmlFor="plan_type">Type of Plan You're Looking For</label>
+                  <label htmlFor="fitness_goals">Fitness Goals</label>
                   <select 
-                    id="plan_type" 
-                    name="plan_type"
-                    value={formData.plan_type}
+                    id="fitness_goals" 
+                    name="fitness_goals"
+                    value={formData.fitness_goals}
                     onChange={handleChange}
                   >
-                    <option value="Gym Membership">Gym Membership</option>
-                    <option value="Personal Training">Personal Training</option>
-                    <option value="Special Population Training">Special Population Training</option>
-                    <option value="Couple & Buddy Package">Couple & Buddy Package</option>
-                    <option value="Students Package">Students Package</option>
-                    <option value="Transformation Package">Transformation Package</option>
-                    <option value="Other / Not Sure">Other / Not Sure</option>
+                    <option value="Fat loss">Fat loss</option>
+                    <option value="Weight gain">Weight gain</option>
+                    <option value="Strength">Strength</option>
+                    <option value="Functional training">Functional training</option>
                   </select>
                 </div>
 
