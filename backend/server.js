@@ -55,6 +55,28 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Serve admin panel static files (located at root level now)
 app.use('/admin', express.static(path.join(__dirname, '..', 'admin-panel')));
 
+// Serve static uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// ─── AUTO MIGRATION (For Production DB Updates) ───────
+const db = require('./config/db');
+(async () => {
+  try {
+    console.log('Running automatic schema migrations...');
+    await db.query(`
+      ALTER TABLE enquiries 
+      ADD COLUMN IF NOT EXISTS age VARCHAR(10),
+      ADD COLUMN IF NOT EXISTS gender VARCHAR(50),
+      ADD COLUMN IF NOT EXISTS training_mode VARCHAR(50),
+      ADD COLUMN IF NOT EXISTS fitness_goals VARCHAR(255);
+    `);
+    await db.query(`ALTER TABLE enquiries DROP COLUMN IF EXISTS plan_type;`);
+    console.log('Migrations completed successfully.');
+  } catch (err) {
+    console.error('Migration error:', err);
+  }
+})();
+
 // ─── API ROUTES ──────────────────────────────────────
 
 app.use('/api/coaches',  coachRoutes);
