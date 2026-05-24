@@ -65,8 +65,8 @@ const MetricsSection1 = () => {
 
   const metrics = [
     { icon: '/images/icon.png', value: 6, suffix: '+', label: 'Certified Coaches' },
-    { icon: '/images/icon.png', value: 2, suffix: '', label: 'Registered Gyms' },
-    { icon: '/images/icon.png', value: 2000, suffix: '+', label: 'Members Trained' },
+    { icon: '/images/icon.png', value: 1, suffix: '', label: 'Registered Gym', subLabel: '(Another one is coming soon)' },
+    { icon: '/images/icon.png', value: 1400, suffix: '+', label: 'Members Trained' },
   ];
 
   return (
@@ -86,7 +86,14 @@ const MetricsSection1 = () => {
               <span className="metrics1__card-number">
                 <Counter value={metric.value} suffix={metric.suffix} />
               </span>
-              <span className="metrics1__card-label">{metric.label}</span>
+              <span className="metrics1__card-label">
+                {metric.label}
+                {metric.subLabel && (
+                  <span style={{ display: 'block', fontSize: '0.7em', marginTop: '4px', opacity: 0.7, fontWeight: 'normal' }}>
+                    {metric.subLabel}
+                  </span>
+                )}
+              </span>
             </div>
           </div>
         ))}

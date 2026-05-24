@@ -5,8 +5,8 @@ const cards = [
   {
     subtitle: 'No Limits',
     description: 'An elite community dedicated to recalibrating what you believe is possible.',
-    metric: '120+',
-    metricLabel: 'Pro Equipment',
+    metric: 'Elite',
+    metricLabel: 'Branded Equipment',
     image: '/images/home_ms1.jpg',
     imageHeight: '369px',
   },
