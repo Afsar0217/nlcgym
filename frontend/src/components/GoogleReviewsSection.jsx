@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { getGoogleReviews } from '../api';
+import { getGoogleReviews, getCachedReviews } from '../api';
 import '../styles/GoogleReviewsSection.css';
 
 const GoogleReviewsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [reviews, setReviews] = useState(getCachedReviews() || []);
+  const [loading, setLoading] = useState(!getCachedReviews());
   const sectionRef = useRef(null);
   const scrollRef = useRef(null);
 

@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCoaches } from '../api';
+import { getCoaches, getCachedCoaches } from '../api';
 import '../styles/TeamsSection.css';
 
 const TeamsSection = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
-  const [trainers, setTrainers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [trainers, setTrainers] = useState(getCachedCoaches()?.slice(0, 6) || []);
+  const [loading, setLoading] = useState(!getCachedCoaches());
   const sectionRef = useRef(null);
 
   useEffect(() => {

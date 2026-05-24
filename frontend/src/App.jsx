@@ -24,7 +24,12 @@ const prefetchData = () => {
     '/images/home_ms1.jpg',
     '/images/home_ms2.jpeg',
     '/images/home_ms3.jpeg',
-    '/images/rectangle.png'
+    '/images/rectangle.png',
+    '/images/teams_herobg.jpg',
+    '/images/wof_herobg.jpg',
+    '/images/career_herobg.jpg',
+    '/images/getfit_herobg.jpg',
+    '/images/home_location_bg.jpg'
   ];
   imagesToPreload.forEach(src => {
     const img = new Image();

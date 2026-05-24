@@ -16,6 +16,10 @@ async function fetchJSON(url) {
 let coachesCache = null;
 let coachesPromise = null;
 
+export function getCachedCoaches() {
+  return coachesCache;
+}
+
 export async function getCoaches() {
   if (coachesCache) return coachesCache;
   if (!coachesPromise) {
@@ -94,6 +98,10 @@ export async function submitEnquiryForm(formData) {
 
 let reviewsCache = null;
 let reviewsPromise = null;
+
+export function getCachedReviews() {
+  return reviewsCache;
+}
 
 export async function getGoogleReviews() {
   if (reviewsCache) return reviewsCache;

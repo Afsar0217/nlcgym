@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCoaches } from '../../api';
+import { getCoaches, getCachedCoaches } from '../../api';
 import '../../styles/CoachesSection.css';
 import '../../styles/Skeleton.css';
 
@@ -164,8 +164,8 @@ const CoachesSection = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [coaches, setCoaches] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [coaches, setCoaches] = useState(getCachedCoaches() || []);
+  const [loading, setLoading] = useState(!getCachedCoaches());
   const [selectedCoach, setSelectedCoach] = useState(null);
   const sectionRef = useRef(null);
   const carouselRef = useRef(null);
