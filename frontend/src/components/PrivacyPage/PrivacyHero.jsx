@@ -11,10 +11,10 @@ const PrivacyHero = () => {
   return (
     <section className="privacy-hero">
       <div className={`privacy-hero__content ${isVisible ? 'visible' : ''}`}>
-        <h1 className="privacy-hero__title">Privacy Policy</h1>
+        <h1 className="privacy-hero__title">Terms & Conditions</h1>
         <div className="privacy-hero__meta">
           <p className="privacy-hero__last-updated">
-            <strong>Last Updated: April 2026</strong> Your privacy is important to us. This policy explains how we handle your information when you use our website or join our hub.
+            <strong>NO LIMITS CROSSFIT — MANAGEMENT DISCLAIMER</strong> Please read the following terms carefully before enrolling or using our facilities.
           </p>
         </div>
         <div className="privacy-hero__scroll">

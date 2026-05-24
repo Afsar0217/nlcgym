@@ -38,7 +38,7 @@ const Footer = () => {
   const isHome = location.pathname === '/';
   const isTeams = location.pathname === '/team';
   const isCareer = location.pathname === '/career';
-  const isPrivacy = location.pathname === '/privacy-policy';
+  const isPrivacy = location.pathname === '/terms-and-conditions';
 
   const showExploreDesktop = isHome || isTeams;
   const showExploreMobile = isHome || isTeams || isCareer || isPrivacy;
@@ -147,7 +147,7 @@ const Footer = () => {
             </div>
             <div className="footer__bottom">
               <span className="footer__copyright">© 2026 — Copyright</span>
-              <Link to="/privacy-policy" className="footer__privacy">Private Policy</Link>
+              <Link to="/terms-and-conditions" className="footer__privacy">Terms & Conditions</Link>
             </div>
 
           </div>

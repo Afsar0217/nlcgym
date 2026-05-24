@@ -1,19 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import '../../styles/PrivacyContent.css';
 
-const PrivacySection = ({ title, content }) => {
-  return (
-    <div className="privacy-section">
-      <h2 className="privacy-section__title">{title}</h2>
-      <div className="privacy-section__content">
-        {content}
-      </div>
-    </div>
-  );
-};
-
-
-const PrivacyContent = () => {
+const TermsContent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
@@ -26,99 +14,63 @@ const PrivacyContent = () => {
     return () => observer.disconnect();
   }, []);
 
-  const sections = [
-    {
-      id: "01",
-      title: "Information we collect",
-      content: (
-        <>
-          <p>We only collect the information we need to provide a professional experience. This includes:</p>
-          <ul>
-            <li><strong>Personal Details:</strong> Your name, email address, and phone number when you fill out a contact form or book a session.</li>
-            <li><strong>Health Data:</strong> Basic fitness information or injury history you share with us to ensure your training protocols are safe.</li>
-            <li><strong>Website Data:</strong> Anonymous information about how you use our site to help us improve the user experience.</li>
-          </ul>
-        </>
-      )
-    },
-    {
-      id: "02",
-      title: "How we use your data",
-      content: (
-        <>
-          <p>We use your information strictly for your transformation and hub management:</p>
-          <ul>
-            <li>To schedule your classes and manage your membership.</li>
-            <li>To create customized training and nutrition plans.</li>
-            <li>To send you important updates, workout insights, and gym news.</li>
-            <li>To ensure we are meeting safety standards during your workouts.</li>
-          </ul>
-        </>
-      )
-    },
-    {
-      id: "03",
-      title: "Data sharing and security",
-      content: (
-        <>
-          <p>We do not sell, trade, or rent your personal data to any third parties. Your information stays within the No Limits ecosystem.</p>
-          <p><strong>Service Providers:</strong> We only share data with trusted partners who help us run our gym (such as our booking and payment software).</p>
-          <p><strong>Security:</strong> We use industry-standard security measures to protect your personal information from unauthorized access.</p>
-        </>
-      )
-    },
-    {
-      id: "04",
-      title: "Cookies",
-      content: (
-        <p>Our website uses cookies to remember your preferences and analyze our traffic. You can choose to disable cookies in your browser settings, but some parts of the site may not function perfectly if you do.</p>
-      )
-    },
-    {
-      id: "05",
-      title: "Your rights",
-      content: (
-        <>
-          <p>You are in total control of your data. At any time, you can request to:</p>
-          <ul>
-            <li>See what personal information we have on file.</li>
-            <li>Update or correct your details.</li>
-            <li>Delete your data from our system entirely.</li>
-          </ul>
-        </>
-      )
-    },
-    {
-      id: "06",
-      title: "Changes to this policy",
-      content: (
-        <p>We may update this policy from time to time to reflect changes in our services or legal requirements. Any updates will be posted on this page with a new "Last Updated" date.</p>
-      )
-    },
-    {
-      id: "07",
-      title: "Contact us",
-      content: (
-        <>
-          <p>If you have any questions about how we handle your privacy, please reach out to us at the hub or via our contact page.</p>
-          <div className="privacy-contact-box">
-             <p>No Limits CrossFit [ Insert Gym Address ]</p>
-             <p>[ Insert Contact Email ]</p>
-          </div>
-        </>
-      )
-    }
+  const terms = [
+    { id: 1, text: 'Management reserves the right to admission.', bold: true },
+    { id: 2, text: 'Memberships are non-transferable, non-refundable, and non-freezable unless approved by management under special conditions.', bold: true },
+    { id: 3, text: 'Gym timings, holidays, classes, trainers, and services may change when required. Members are requested to check notices and updates regularly.' },
+    { id: 4, text: 'Management reserves the right to add, remove, or modify any equipment, facility, service, package, pricing, rules, or policies without prior notice.' },
+    { id: 5, text: 'In case of unforeseen situations such as natural calamities, strikes, fire, technical issues, government restrictions, or emergency situations, management will not be responsible for extensions or refunds.', boldPhrase: 'management will not be responsible for extensions or refunds.' },
+    { id: 6, text: 'Members use all gym facilities and equipment at their own risk. Management will not be responsible for any injury, accident, or health issue occurring inside or around the premises.', boldPhrase: 'at their own risk.' },
+    { id: 7, text: 'Management is not responsible for any loss, theft, or damage of personal belongings.', bold: true },
+    { id: 8, text: 'Parking is entirely at the member\'s own risk.' },
+    { id: 9, text: 'All payments must be made through authorized payment methods only. Members are advised to keep payment receipts safely.' },
+    { id: 10, text: 'Change of trainer or staff does not qualify for refund or package cancellation.', boldPhrase: 'does not qualify for refund or package cancellation.' },
+    { id: 11, text: 'Membership may be terminated without refund if a member violates gym rules, misbehaves, damages equipment, or creates disturbance inside the gym.', boldPhrase: 'without refund' },
+    { id: 12, text: 'Smoking, alcohol, tobacco, drugs, abusive language, fighting, or disrespectful behavior are strictly prohibited.', bold: true },
+    { id: 13, text: 'Payments made for any package, service, or product cannot be adjusted against another package or service.', boldPhrase: 'cannot be adjusted' },
+    { id: 14, text: 'Membership activation is subject to successful payment realization.' },
+    { id: 15, text: 'Package upgrades are allowed only within 5 days from the date of activation.', boldPhrase: 'Package upgrades are allowed only within 5 days' },
+    { id: 16, text: 'Membership transfer, if approved by management, is allowed only to a non-member client with applicable transfer charges.' },
+    { id: 17, text: '2% additional charges applicable on credit card payments.', bold: true },
+    { id: 18, text: 'Shoes are mandatory inside the gym premises.', bold: true },
+    { id: 19, text: 'Members must rerack weights after use and maintain gym discipline.', boldPhrase: 'rerack weights after use' },
+    { id: 20, text: 'Management reserves the right to update or modify these rules and policies at any time.' },
   ];
+
+  const renderTermText = (term) => {
+    if (term.bold) {
+      return <strong>{term.text}</strong>;
+    }
+    if (term.boldPhrase) {
+      const parts = term.text.split(term.boldPhrase);
+      return (
+        <>
+          {parts[0]}<strong>{term.boldPhrase}</strong>{parts[1] || ''}
+        </>
+      );
+    }
+    return term.text;
+  };
 
   return (
     <section className="privacy-content" ref={sectionRef}>
       <div className={`privacy-content__container ${isVisible ? 'visible' : ''}`}>
-        {sections.map((sec, i) => (
-          <PrivacySection key={i} {...sec} />
-        ))}
+        <div className="privacy-section">
+          <h2 className="privacy-section__title">Gym Rules & Policies</h2>
+          <div className="privacy-section__content">
+            <ol className="terms-list">
+              {terms.map((term) => (
+                <li key={term.id} className="terms-list__item">
+                  <span className="terms-list__number">{String(term.id).padStart(2, '0')}</span>
+                  <p className="terms-list__text">{renderTermText(term)}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
       </div>
     </section>
   );
 };
 
-export default PrivacyContent;
+export default TermsContent;

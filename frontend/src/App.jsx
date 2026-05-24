@@ -116,7 +116,7 @@ function AppContent() {
             <Route path="/blogs" element={<BlogPage />} />
             <Route path="/blog/:id" element={<BlogDetailPage />} />
             <Route path="/career" element={<CareerPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms-and-conditions" element={<PrivacyPolicyPage />} />
             <Route path="/get-fit" element={<GetFitPage />} />
           </Routes>
         </main>

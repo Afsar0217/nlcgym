@@ -1,5 +1,6 @@
 import TeamsHero from '../components/TeamsPage/TeamsHero';
 import TeamsAbout from '../components/TeamsPage/TeamsAbout';
+import TeamPhilosophy from '../components/TeamsPage/TeamPhilosophy';
 import CoachesSection from '../components/TeamsPage/CoachesSection';
 import TeamsBridge from '../components/TeamsPage/TeamsBridge';
 import useSEO from '../hooks/useSEO';
@@ -15,6 +16,7 @@ const TeamsPage = () => {
       <TeamsHero />
       <div className="grudge-texture">
         <TeamsAbout />
+        <TeamPhilosophy />
         <CoachesSection />
         <TeamsBridge />
       </div>

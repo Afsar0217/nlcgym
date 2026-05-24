@@ -75,6 +75,53 @@
     font-size: 14px;
 }
 
+/* Terms & Conditions List */
+.terms-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.terms-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.terms-list__item:last-child {
+  border-bottom: none;
+}
+
+.terms-list__number {
+  font-family: 'Exo', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #DD3028;
+  min-width: 28px;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.terms-list__text {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+.terms-list__text strong {
+  color: #fff;
+  font-weight: 600;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 480px) {
     .privacy-content {

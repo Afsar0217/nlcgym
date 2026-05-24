@@ -4,8 +4,8 @@ import useSEO from '../hooks/useSEO';
 
 const PrivacyPolicyPage = () => {
   useSEO(
-    "Privacy Policy | No Limits CrossFit",
-    "Read the privacy policy and terms of service for No Limits CrossFit gym in Hyderabad."
+    "Terms & Conditions | No Limits CrossFit",
+    "Read the terms and conditions, gym rules and management disclaimer for No Limits CrossFit gym in Hyderabad."
   );
 
   return (

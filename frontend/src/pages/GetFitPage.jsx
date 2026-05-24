@@ -39,15 +39,15 @@ const GetFitPage = () => {
 
       setStatus({ loading: false, success: true, error: null });
       setFormData({ name: '', email: '', phone: '', age: '', gender: '', training_mode: '', fitness_goals: 'Fat loss', message: '' });
-      
+
       // Reset success message after 5 seconds
       setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 5000);
     } catch (error) {
       console.error("Submission error:", error);
-      setStatus({ 
-        loading: false, 
-        success: false, 
-        error: error.message || 'Something went wrong. Please try again.' 
+      setStatus({
+        loading: false,
+        success: false,
+        error: error.message || 'Something went wrong. Please try again.'
       });
     }
   };
@@ -60,7 +60,7 @@ const GetFitPage = () => {
 
   return (
     <div className="getfit-page">
-      
+
       {/* Hero Section — matching Teams/Blog hero style */}
       <section className="getfit-hero">
         <div className="getfit-hero__bg">
@@ -73,19 +73,19 @@ const GetFitPage = () => {
             <h1 className="getfit-hero__title">GET FIT</h1>
             <div className="getfit-hero__arrow">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M8.5 5L15.5 12L8.5 19" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M8.5 5L15.5 12L8.5 19" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
           </div>
 
           <div className="getfit-hero__tagline">
-            YOUR JOURNEY TO A STRONGER YOU STARTS HERE
+            YOUR JOURNEY TO GET STRONGER STARTS HERE
           </div>
         </div>
 
         <div className="getfit-hero__scroll-indicator">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M5 8.5L12 15.5L19 8.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M5 8.5L12 15.5L19 8.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
       </section>
@@ -96,7 +96,7 @@ const GetFitPage = () => {
           <div className="getfit-form__text">
             <h2>Contact Form</h2>
             <p>
-              Leave your details below and our fitness consultants will reach out to design the perfect protocol for your goals. 
+              Leave your details below and our fitness consultants will reach out to design the perfect protocol for your goals.
               We are excited to welcome you into the No Limits CrossFit family!
             </p>
           </div>
@@ -113,14 +113,14 @@ const GetFitPage = () => {
             ) : (
               <form className="getfit-form" onSubmit={handleSubmit}>
                 {status.error && <div className="getfit-form__error">{status.error}</div>}
-                
+
                 <div className="getfit-form__group">
                   <label htmlFor="name">Full Name *</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
-                    required 
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
                     placeholder="John Doe"
                     value={formData.name}
                     onChange={handleChange}
@@ -130,11 +130,11 @@ const GetFitPage = () => {
                 <div className="getfit-form__row">
                   <div className="getfit-form__group">
                     <label htmlFor="email">Email Address *</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      name="email" 
-                      required 
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
                       placeholder="john@example.com"
                       value={formData.email}
                       onChange={handleChange}
@@ -142,11 +142,11 @@ const GetFitPage = () => {
                   </div>
                   <div className="getfit-form__group">
                     <label htmlFor="phone">Phone Number *</label>
-                    <input 
-                      type="tel" 
-                      id="phone" 
-                      name="phone" 
-                      required 
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      required
                       placeholder="+91 98765 43210"
                       value={formData.phone}
                       onChange={handleChange}
@@ -157,10 +157,10 @@ const GetFitPage = () => {
                 <div className="getfit-form__row">
                   <div className="getfit-form__group">
                     <label htmlFor="age">Age</label>
-                    <input 
-                      type="number" 
-                      id="age" 
-                      name="age" 
+                    <input
+                      type="number"
+                      id="age"
+                      name="age"
                       placeholder="e.g. 25"
                       value={formData.age}
                       onChange={handleChange}
@@ -170,8 +170,8 @@ const GetFitPage = () => {
                   </div>
                   <div className="getfit-form__group">
                     <label htmlFor="gender">Gender</label>
-                    <select 
-                      id="gender" 
+                    <select
+                      id="gender"
                       name="gender"
                       value={formData.gender}
                       onChange={handleChange}
@@ -188,23 +188,23 @@ const GetFitPage = () => {
                   <label>Are you looking for online/offline training?</label>
                   <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: 'normal', color: '#ccc' }}>
-                      <input 
-                        type="radio" 
-                        name="training_mode" 
-                        value="Online" 
-                        checked={formData.training_mode === 'Online'} 
-                        onChange={handleChange} 
+                      <input
+                        type="radio"
+                        name="training_mode"
+                        value="Online"
+                        checked={formData.training_mode === 'Online'}
+                        onChange={handleChange}
                         style={{ width: 'auto', accentColor: '#DD3028' }}
                       />
                       Online Training
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: 'normal', color: '#ccc' }}>
-                      <input 
-                        type="radio" 
-                        name="training_mode" 
-                        value="Offline" 
-                        checked={formData.training_mode === 'Offline'} 
-                        onChange={handleChange} 
+                      <input
+                        type="radio"
+                        name="training_mode"
+                        value="Offline"
+                        checked={formData.training_mode === 'Offline'}
+                        onChange={handleChange}
                         style={{ width: 'auto', accentColor: '#DD3028' }}
                       />
                       Offline Training
@@ -214,8 +214,8 @@ const GetFitPage = () => {
 
                 <div className="getfit-form__group">
                   <label htmlFor="fitness_goals">Fitness Goals</label>
-                  <select 
-                    id="fitness_goals" 
+                  <select
+                    id="fitness_goals"
                     name="fitness_goals"
                     value={formData.fitness_goals}
                     onChange={handleChange}
@@ -224,24 +224,25 @@ const GetFitPage = () => {
                     <option value="Weight gain">Weight gain</option>
                     <option value="Strength">Strength</option>
                     <option value="Functional training">Functional training</option>
+                    <option value="Transformation">Transformation</option>
                     <option value="Others">Others</option>
                   </select>
                 </div>
 
                 <div className="getfit-form__group">
                   <label htmlFor="message">Anything Else We Should Know?</label>
-                  <textarea 
-                    id="message" 
-                    name="message" 
-                    rows="4" 
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="4"
                     placeholder="Tell us about your fitness goals, past injuries, or preferred timing..."
                     value={formData.message}
                     onChange={handleChange}
                   ></textarea>
                 </div>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="cta-button getfit-form__submit"
                   disabled={status.loading}
                 >
