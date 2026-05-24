@@ -224,6 +224,7 @@ const GetFitPage = () => {
                     <option value="Weight gain">Weight gain</option>
                     <option value="Strength">Strength</option>
                     <option value="Functional training">Functional training</option>
+                    <option value="Others">Others</option>
                   </select>
                 </div>
 
