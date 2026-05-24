@@ -1,5 +1,5 @@
 .google-reviews {
-  padding: 80px 5%;
+  padding: 20px 5% 80px;
   background: var(--bg-color, #050505);
   position: relative;
   overflow: hidden;
@@ -87,55 +87,57 @@
   padding: 6px;
 }
 
+/* Remove original arrows */
 .google-reviews__arrows {
-  display: flex;
-  gap: 12px;
+  display: none;
 }
 
-.google-reviews__arrow {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: transparent;
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* New Marquee Container */
+.google-reviews__marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0 40px;
+  /* Soft fade on edges */
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
 }
 
-.google-reviews__arrow:hover {
-  background: var(--accent-color, #DD3028);
-  border-color: var(--accent-color, #DD3028);
-}
-
-.google-reviews__cards {
+.google-reviews__track {
   display: flex;
   gap: 24px;
-  overflow-x: auto;
-  padding-bottom: 30px;
-  scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
+  width: max-content;
+  animation: scroll 35s linear infinite;
 }
 
-.google-reviews__cards::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+.google-reviews__track:hover {
+  animation-play-state: paused;
+}
+
+.google-reviews__group {
+  display: flex;
+  gap: 24px;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  /* Translate exactly by -100% of the first group minus the gap compensation */
+  100% { transform: translateX(calc(-50% - 12px)); }
 }
 
 .google-reviews__card {
   flex: 0 0 350px;
-  background: rgba(20, 20, 20, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(20, 20, 20, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   padding: 30px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
 }
@@ -147,16 +149,16 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, var(--accent-color, #DD3028), transparent);
+  background: linear-gradient(90deg, var(--accent-color, #DD3028), #ff6b6b);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
 .google-reviews__card:hover {
-  transform: translateY(-5px);
-  background: rgba(30, 30, 30, 0.8);
+  transform: translateY(-8px);
+  background: rgba(30, 30, 30, 0.6);
   border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(221, 48, 40, 0.1);
 }
 
 .google-reviews__card:hover::before {
