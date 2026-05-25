@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import WhatsAppWidget from './components/WhatsAppWidget';
 import HomePage from './pages/HomePage';
 import TeamsPage from './pages/TeamsPage';
 import WallOfFamePage from './pages/WallOfFamePage';
@@ -121,6 +122,7 @@ function AppContent() {
           </Routes>
         </main>
         <Footer />
+        <WhatsAppWidget />
       </div>
     </>
   );

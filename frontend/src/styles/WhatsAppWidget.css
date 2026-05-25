@@ -1,0 +1,286 @@
+/* ===== WHATSAPP FLOATING WIDGET ===== */
+.wa-widget {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+/* ===== FLOATING ICON BUTTON ===== */
+.wa-widget__icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: #25D366;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 16px rgba(37, 211, 102, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+
+.wa-widget__icon:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 6px 24px rgba(37, 211, 102, 0.45),
+    0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.wa-widget__icon--open {
+  background: #075E54;
+  box-shadow:
+    0 4px 16px rgba(7, 94, 84, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.wa-widget__icon-img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Pulse animation ring */
+.wa-widget__icon::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid rgba(37, 211, 102, 0.4);
+  animation: waPulse 2s ease-out infinite;
+}
+
+.wa-widget__icon--open::before {
+  animation: none;
+  border-color: transparent;
+}
+
+@keyframes waPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+/* ===== TOOLTIP BUBBLE ===== */
+.wa-widget__tooltip {
+  background: #E8F5E1;
+  color: #1a1a1a;
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 20px;
+  border-radius: 24px;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  white-space: nowrap;
+  animation: waTooltipIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: bottom right;
+}
+
+@keyframes waTooltipIn {
+  0% {
+    opacity: 0;
+    transform: translateX(20px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* ===== CHAT POPUP ===== */
+.wa-widget__popup {
+  width: 340px;
+  background: #E5DDD5;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.25),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: waPopupIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: bottom right;
+}
+
+@keyframes waPopupIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header */
+.wa-widget__popup-header {
+  background: #075E54;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wa-widget__popup-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wa-widget__popup-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.wa-widget__popup-title {
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #FFFFFF;
+}
+
+.wa-widget__popup-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.2s ease;
+}
+
+.wa-widget__popup-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Body */
+.wa-widget__popup-body {
+  padding: 20px;
+  min-height: 100px;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8bfb0' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") #E5DDD5;
+}
+
+.wa-widget__popup-bubble {
+  background: #FFFFFF;
+  padding: 14px 16px;
+  border-radius: 0 12px 12px 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  position: relative;
+  max-width: 85%;
+}
+
+.wa-widget__popup-bubble::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid #FFFFFF;
+  border-left: 8px solid transparent;
+}
+
+.wa-widget__popup-bubble p {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #303030;
+  margin: 0;
+}
+
+.wa-widget__popup-time {
+  display: block;
+  text-align: right;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11px;
+  color: #999;
+  margin-top: 6px;
+}
+
+/* Footer CTA */
+.wa-widget__popup-footer {
+  padding: 14px 20px;
+  background: #F0F0F0;
+}
+
+.wa-widget__popup-cta {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+}
+
+.wa-widget__popup-cta:hover {
+  background: #1DA851;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .wa-widget {
+    bottom: 20px;
+    right: 16px;
+  }
+
+  .wa-widget__icon {
+    width: 54px;
+    height: 54px;
+  }
+
+  .wa-widget__icon-img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .wa-widget__popup {
+    width: calc(100vw - 32px);
+    max-width: 340px;
+  }
+
+  .wa-widget__tooltip {
+    font-size: 13px;
+    padding: 10px 16px;
+  }
+}
