@@ -1,173 +1,361 @@
+/* ===== TEAMS ABOUT US SECTION ===== */
 .teams-about {
-    position: relative;
-    width: 100%;
-    min-height: auto;
-    background: #000000;
-    padding: 100px 0;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  background: #000000;
+  padding: 120px 0;
+  overflow: hidden;
 }
 
 .teams-about__container {
-    width: 100%;
-    max-width: 1352px;
-    margin: 0 auto;
-    padding: 0 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 80px;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  max-width: 1352px;
+  margin: 0 auto;
+  padding: 0 80px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .teams-about--visible {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.teams-about__intro {
-    width: 100%;
-    max-width: 700px;
-    font-family: 'Inter Tight', sans-serif;
-    font-style: italic;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 1.6;
-    text-transform: capitalize;
-    color: #FFFFFF;
+.teams-about__layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 80px;
 }
 
-.teams-about__founder-area {
-    display: flex;
-    flex-direction: column;
-    gap: 80px;
-    width: 100%;
+/* ===== LEFT COLUMN (Sticky Branding) ===== */
+.teams-about__left-col {
+  width: 35%;
+  flex-shrink: 0;
 }
 
-.teams-about__divider {
-    width: 100%;
-    height: 1px;
-    background: #F6F6F6;
-    opacity: 0.2;
+.teams-about__sticky-wrapper {
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
 }
 
-.teams-about__content-grid {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 80px;
-    width: 100%;
+.teams-about__logo-container {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: rgba(221, 48, 40, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  position: relative;
 }
 
-/* Founder Card */
-.teams-about__founder-card {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
-    max-width: 420px;
+.teams-about__logo-container::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(221, 48, 40, 0.2), transparent, rgba(221, 48, 40, 0.2));
+  z-index: 1;
+  pointer-events: none;
 }
 
-.teams-about__founder-img {
-    width: 100%;
-    height: 480px;
-    background: #1a1a1a;
-    border-radius: 8px;
-    overflow: hidden;
+.teams-about__logo-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+  z-index: 2;
 }
 
-.teams-about__founder-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.teams-about__branding {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.teams-about__founder-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.teams-about__brand-title {
+  font-family: 'Exo', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  color: #FFFFFF;
 }
 
-.teams-about__founder-name {
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 500;
-    font-size: 18px;
-    color: #FFFFFF;
+.teams-about__brand-subtitle {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.45);
 }
 
-.teams-about__founder-title {
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
-    text-transform: uppercase;
+/* ===== RIGHT COLUMN (Content Flow) ===== */
+.teams-about__right-col {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-/* Quote Block */
-.teams-about__quote-block {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-    max-width: 600px;
+.teams-about__badge {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  margin-bottom: 16px;
 }
 
-.teams-about__quote-icon {
-    width: 44px;
-    height: 40px;
+.teams-about__heading {
+  font-family: 'Exo', sans-serif;
+  font-weight: 800;
+  font-size: 52px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 40px;
 }
 
-.teams-about__quote-text {
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 500;
-    font-size: 32px;
-    line-height: 1.3;
-    color: #FFFFFF;
-    text-transform: capitalize;
+.teams-about__body-content {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.teams-about__body-content p strong {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.teams-about__lead-paragraph {
+  font-size: 20px;
+  line-height: 1.6;
+  color: #FFFFFF;
+  font-weight: 500;
+  border-left: 3px solid #DD3028;
+  padding-left: 20px;
+  margin-bottom: 8px;
+}
+
+/* Lists and Sections */
+.teams-about__sub-section {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.teams-about__sub-heading {
+  font-family: 'Exo', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.teams-about__list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.teams-about__list-item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.teams-about__list-bullet {
+  font-family: 'Exo', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #DD3028;
+  background: rgba(221, 48, 40, 0.1);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.teams-about__list-item strong {
+  display: block;
+  font-size: 16px;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+}
+
+.teams-about__list-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.teams-about__sub-note {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* PT Accountability Two-Column List */
+.teams-about__list--two-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.teams-about__list--two-col .teams-about__list-item {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 16px 20px;
+  border-radius: 10px;
+}
+
+.teams-about__list--two-col .teams-about__list-bullet {
+  background: rgba(221, 48, 40, 0.15);
+  color: #DD3028;
+  font-weight: bold;
+}
+
+/* Philosophy Callout Box */
+.teams-about__philosophy-box {
+  margin-top: 24px;
+  padding: 32px;
+  background: linear-gradient(135deg, rgba(221, 48, 40, 0.05) 0%, rgba(221, 48, 40, 0.01) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(221, 48, 40, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.teams-about__philosophy-box p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Footer Quotes */
+.teams-about__footer-tagline {
+  margin-top: 36px;
+  width: 100%;
+}
+
+.teams-about__built-for {
+  font-family: 'Exo', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #FFFFFF;
+  margin-bottom: 24px;
+}
+
+.teams-about__quote-callout {
+  padding: 30px;
+  border-left: 4px solid #DD3028;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 0 16px 16px 0;
+}
+
+.teams-about__quote-callout-text {
+  font-family: 'Exo', sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.4;
+  color: #FFFFFF;
+  margin: 0;
 }
 
 /* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .teams-about__container {
+    padding: 0 40px;
+  }
+}
+
 @media (max-width: 1024px) {
-    .teams-about__container {
-        padding: 0 40px;
-    }
-    .teams-about__content-grid {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 60px;
-    }
-    .teams-about__quote-block {
-        max-width: 100%;
-    }
+  .teams-about__layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+  }
+
+  .teams-about__left-col {
+    width: 100%;
+  }
+
+  .teams-about__sticky-wrapper {
+    position: static;
+  }
+
+  .teams-about__logo-container {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .teams-about {
+    padding: 80px 0;
+  }
+
+  .teams-about__heading {
+    font-size: 40px;
+  }
+
+  .teams-about__list--two-col {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .teams-about__quote-callout-text {
+    font-size: 20px;
+  }
 }
 
 @media (max-width: 480px) {
-    .teams-about {
-        padding: 60px 0;
-    }
+  .teams-about__container {
+    padding: 0 24px;
+  }
 
-    .teams-about__container {
-        padding: 0 24px;
-        gap: 40px;
-    }
+  .teams-about__heading {
+    font-size: 32px;
+  }
 
-    .teams-about__intro {
-        font-size: 16px;
-        line-height: 1.5;
-    }
+  .teams-about__lead-paragraph {
+    font-size: 17px;
+    padding-left: 14px;
+  }
 
-    .teams-about__founder-area {
-        gap: 40px;
-    }
-
-    .teams-about__founder-img {
-        height: 360px;
-    }
-
-    .teams-about__quote-text {
-        font-size: 24px;
-    }
+  .teams-about__philosophy-box {
+    padding: 24px;
+  }
 }
-
