@@ -1,6 +1,7 @@
 import WofHero from '../components/WallOfFamePage/WofHero';
 import HallOfFameSection from '../components/HallOfFameSection';
 import WofServices from '../components/WallOfFamePage/WofServices';
+import MotivationManifesto from '../components/WallOfFamePage/MotivationManifesto';
 import MemberWords from '../components/WallOfFamePage/MemberWords';
 import BridgeSection from '../components/BridgeSection';
 import useSEO from '../hooks/useSEO';
@@ -17,6 +18,7 @@ const WallOfFamePage = () => {
       <div className="grudge-texture">
         <HallOfFameSection />
         <WofServices />
+        <MotivationManifesto />
         <MemberWords />
         <BridgeSection />
       </div>

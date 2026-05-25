@@ -1,0 +1,404 @@
+/* ===== PREMIUM MOTIVATION MANIFESTO SECTION ===== */
+.motivation-manifesto {
+  position: relative;
+  width: 100%;
+  background: #000000;
+  padding: 120px 0;
+  overflow: hidden;
+}
+
+/* Background overlay lines */
+.motivation-manifesto::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.motivation-manifesto::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 20%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.03) 100%);
+  pointer-events: none;
+}
+
+.motivation-manifesto__container {
+  width: 100%;
+  max-width: 1352px;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* ===== HEADER STYLING ===== */
+.motivation-manifesto__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 800px;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.motivation-manifesto--visible .motivation-manifesto__header {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.motivation-manifesto__tag {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: #DD3028;
+  text-transform: uppercase;
+}
+
+.motivation-manifesto__title {
+  font-family: 'Exo', sans-serif;
+  font-weight: 800;
+  font-size: 56px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+}
+
+.motivation-manifesto__desc {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 8px;
+}
+
+/* ===== MOTIVATION CARDS GRID ===== */
+.motivation-manifesto__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  width: 100%;
+}
+
+/* Base Card Styling */
+.motivation-card {
+  position: relative;
+  height: 480px;
+  border-radius: 12px;
+  padding: 40px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  
+  /* Entrance animations */
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.motivation-manifesto--visible .motivation-card {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: var(--card-delay);
+}
+
+/* Overlays */
+.motivation-card__grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.motivation-card__grain-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.motivation-card__content {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Hover effects */
+.motivation-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--accent-color);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.motivation-card__laser-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(221, 48, 40, 0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.motivation-card:hover .motivation-card__laser-glow {
+  opacity: 1;
+}
+
+/* Corners */
+.motivation-card__corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: rgba(255, 255, 255, 0.15);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 4;
+  transition: all 0.3s ease;
+}
+
+.motivation-card__corner--tl {
+  top: 16px;
+  left: 16px;
+  border-width: 2px 0 0 2px;
+}
+
+.motivation-card__corner--br {
+  bottom: 16px;
+  right: 16px;
+  border-width: 0 2px 2px 0;
+}
+
+.motivation-card:hover .motivation-card__corner {
+  border-color: var(--accent-color);
+  width: 18px;
+  height: 18px;
+}
+
+/* Typography styles */
+.motivation-card__quote-text {
+  font-family: 'Exo', sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.motivation-card__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.motivation-card__accent-bar {
+  width: 40px;
+  height: 3px;
+  background: var(--accent-color);
+  transition: width 0.3s ease;
+}
+
+.motivation-card:hover .motivation-card__accent-bar {
+  width: 80px;
+}
+
+.motivation-card__sub-text {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.motivation-card__bg-graphic {
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  color: var(--accent-color);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ================= THEME 1: OBSIDIAN GOLD ================= */
+.motivation-card--obsidian-gold {
+  background: linear-gradient(135deg, #0d0d0d 0%, #171717 100%);
+  border-color: rgba(221, 48, 40, 0.1);
+}
+
+.motivation-card--obsidian-gold .motivation-card__quote-text {
+  background: linear-gradient(135deg, #FFFFFF 40%, #E29E25 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ================= THEME 2: CAUTION YELLOW ================= */
+.motivation-card--caution-yellow {
+  background: linear-gradient(135deg, #080808 0%, #121212 100%);
+  border-left: 4px solid #FFB800;
+}
+
+.motivation-card--caution-yellow .motivation-card__quote-text {
+  color: #FFB800;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+}
+
+/* ================= THEME 3: CONCRETE SPLIT ================= */
+.motivation-card--concrete-split {
+  background: #111111;
+  position: relative;
+}
+
+.motivation-card--concrete-split::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.015);
+  pointer-events: none;
+}
+
+.motivation-card--concrete-split .motivation-card__split-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.15) 50%, transparent);
+  pointer-events: none;
+}
+
+.motivation-card--concrete-split .motivation-card__quote-text {
+  color: #FFFFFF;
+}
+
+/* ================= THEME 4: GOLDEN STENCIL ================= */
+.motivation-card--golden-stencil {
+  background: linear-gradient(135deg, #15110a 0%, #0c0803 100%);
+  border-color: rgba(226, 158, 37, 0.1);
+}
+
+.motivation-card--golden-stencil .motivation-card__quote-text {
+  color: #E29E25;
+  letter-spacing: 0.05em;
+  font-family: 'Exo', sans-serif;
+}
+
+/* ================= THEME 5: STEEL DISTRESS ================= */
+.motivation-card--steel-distress {
+  background: linear-gradient(135deg, #121417 0%, #0b0c0d 100%);
+  border-color: rgba(138, 143, 152, 0.1);
+}
+
+.motivation-card--steel-distress .motivation-card__quote-text {
+  color: #E2E8F0;
+  border-left: 2px solid rgba(255, 255, 255, 0.15);
+  padding-left: 16px;
+}
+
+/* ================= THEME 6: CHARCOAL SPLATTER ================= */
+.motivation-card--charcoal-splatter {
+  background: linear-gradient(135deg, #0a0a0a 0%, #151515 100%);
+}
+
+.motivation-card--charcoal-splatter .motivation-card__quote-text {
+  color: #FFFFFF;
+  background: linear-gradient(90deg, #FFFFFF 60%, #DD3028 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .motivation-manifesto__container {
+    padding: 0 40px;
+  }
+  
+  .motivation-manifesto__grid {
+    gap: 24px;
+  }
+
+  .motivation-card {
+    height: 440px;
+    padding: 30px;
+  }
+
+  .motivation-card__quote-text {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .motivation-manifesto__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .motivation-manifesto {
+    padding: 80px 0;
+  }
+
+  .motivation-manifesto__container {
+    gap: 48px;
+  }
+
+  .motivation-manifesto__title {
+    font-size: 40px;
+  }
+
+  .motivation-manifesto__desc {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .motivation-manifesto__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .motivation-card {
+    height: 380px;
+  }
+}
+
+@media (max-width: 480px) {
+  .motivation-manifesto__container {
+    padding: 0 24px;
+  }
+
+  .motivation-manifesto__title {
+    font-size: 32px;
+  }
+
+  .motivation-card {
+    height: 340px;
+    padding: 24px;
+  }
+
+  .motivation-card__quote-text {
+    font-size: 19px;
+  }
+}
