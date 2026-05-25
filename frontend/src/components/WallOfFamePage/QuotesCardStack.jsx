@@ -129,7 +129,9 @@ const QuotesCardStack = () => {
                 const lift = isActive ? -ACTIVE_LIFT : 0;
                 const rotateX = isActive ? 0 : TILT_X;
                 const zIndex = 100 - abs;
-                const brightness = isActive ? 1 : 0.55;
+                const cardFilter = isActive
+                  ? 'brightness(1) blur(0px)'
+                  : `brightness(0.35) blur(${Math.min(abs * 1.5, 4)}px)`;
 
                 return (
                   <motion.div
@@ -156,7 +158,7 @@ const QuotesCardStack = () => {
                       rotateZ,
                       rotateX,
                       scale,
-                      filter: `brightness(${brightness})`,
+                      filter: cardFilter,
                     }}
                     exit={{
                       opacity: 0,
