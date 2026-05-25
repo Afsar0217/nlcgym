@@ -95,7 +95,7 @@ const Footer = () => {
                     </svg>
                   </div>
                   <div className="footer__detail-texts">
-                    <h4>{selectedBranch === 'miyapur' ? 'Head Office' : 'Gachibowli Branch'}</h4>
+                    <h4>Head Office</h4>
                     <p>{currentBranch.address}</p>
                   </div>
                 </div>
