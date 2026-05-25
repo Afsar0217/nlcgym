@@ -2,15 +2,37 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../../styles/QuotesCardStack.css';
 
-const quoteItems = [
-  { id: 1, imageSrc: '/images/quotes/1.png', title: 'Pain Activates Your Mind And Your Body' },
-  { id: 2, imageSrc: '/images/quotes/2.png', title: 'Sweat Now, Shine Later' },
-  { id: 3, imageSrc: '/images/quotes/3.png', title: 'Focus On Improving Yourself, Not Proving Yourself' },
-  { id: 4, imageSrc: '/images/quotes/4.png', title: 'Your Body Can Do It, Convince Your Mind' },
-  { id: 5, imageSrc: '/images/quotes/5.png', title: "Excuses Don't Burn Calories" },
-  { id: 6, imageSrc: '/images/quotes/6.png', title: "The Only Bad Workout Is The One That Didn't Happen" },
-  { id: 7, imageSrc: '/images/quotes/7.png', title: 'Work Hard In Silence, Let Success Be The Noise' },
-];
+const globImages = import.meta.glob('/public/images/quotes/*.{png,jpg,jpeg,webp,PNG,JPG,JPEG,WEBP}', { eager: true });
+
+const quoteItems = Object.keys(globImages).map((key, idx) => {
+  const imageSrc = key.replace('/public', '');
+  const filenameWithExt = key.substring(key.lastIndexOf('/') + 1);
+  const filename = filenameWithExt.substring(0, filenameWithExt.lastIndexOf('.'));
+  
+  let title = filename
+    .replace(/[-_]/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase());
+  
+  const defaultTitles = {
+    "1": 'Pain Activates Your Mind And Your Body',
+    "2": 'Sweat Now, Shine Later',
+    "3": 'Focus On Improving Yourself, Not Proving Yourself',
+    "4": 'Your Body Can Do It, Convince Your Mind',
+    "5": "Excuses Don't Burn Calories",
+    "6": "The Only Bad Workout Is The One That Didn't Happen",
+    "7": 'Work Hard In Silence, Let Success Be The Noise'
+  };
+  
+  if (defaultTitles[filename]) {
+    title = defaultTitles[filename];
+  }
+
+  return {
+    id: idx + 1,
+    imageSrc,
+    title
+  };
+});
 
 /* ---- helpers ---- */
 function wrapIndex(n, len) {
