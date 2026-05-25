@@ -6,7 +6,6 @@ const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedBranch, setSelectedBranch] = useState('miyapur');
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const sectionRef = useRef(null);
@@ -34,26 +33,14 @@ const Footer = () => {
   };
 
   // Branch data
-  const branches = {
-    miyapur: {
-      name: 'Miyapur Center (Head Office)',
-      address: 'Plot no 792, beside Rl City, opp. Bus Body Building, Mayuri Nagar, Nizampet, Miyapur, Hyderabad, Telangana 500049',
-      phone: '+91 77803 48640',
-      email: 'nolimitscrossfitgym@gmail.com',
-      mapUrl: 'https://maps.google.com/maps?q=Plot+no+792,+Mayuri+Nagar,+Nizampet,+Miyapur,+Hyderabad,+Telangana&t=&z=16&ie=UTF8&iwloc=B&output=embed',
-      directLink: 'https://maps.app.goo.gl/UgpVJY7ask4PLGoK9'
-    },
-    gachibowli: {
-      name: 'Gachibowli Center (Coming Soon)',
-      address: 'Financial District, Gachibowli, Hyderabad, Telangana (Location mapping in progress)',
-      phone: '+91 77803 48640',
-      email: 'nolimitscrossfitgym@gmail.com',
-      mapUrl: '', // Show custom visual card
-      directLink: ''
-    }
+  const currentBranch = {
+    name: 'Miyapur Center (Head Office)',
+    address: 'Plot no 792, beside Rl City, opp. Bus Body Building, Mayuri Nagar, Nizampet, Miyapur, Hyderabad, Telangana 500049',
+    phone: '+91 77803 48640',
+    email: 'nolimitscrossfitgym@gmail.com',
+    mapUrl: 'https://maps.google.com/maps?q=Plot+no+792,+Mayuri+Nagar,+Nizampet,+Miyapur,+Hyderabad,+Telangana&t=&z=16&ie=UTF8&iwloc=B&output=embed',
+    directLink: 'https://maps.app.goo.gl/UgpVJY7ask4PLGoK9'
   };
-
-  const currentBranch = branches[selectedBranch];
 
   return (
     <footer className="footer" ref={sectionRef}>
@@ -65,69 +52,38 @@ const Footer = () => {
             
             {/* Map Area */}
             <div className="footer__map-col">
-              {currentBranch.mapUrl ? (
-                <div className="footer__map-wrapper">
-                  <iframe
-                    src={currentBranch.mapUrl}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen=""
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title={currentBranch.name}
-                    className="footer__map-iframe"
-                  ></iframe>
-                  <a 
-                    href={currentBranch.directLink} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="footer__map-btn"
-                  >
-                    Open in Google Maps
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                  </a>
-                </div>
-              ) : (
-                <div className="footer__map-placeholder">
-                  <div className="footer__placeholder-glow"></div>
-                  <div className="footer__placeholder-content">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#DD3028" strokeWidth="1.5">
-                      <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
-                      <circle cx="12" cy="10" r="3"/>
-                    </svg>
-                    <h3>Gachibowli Launching Soon</h3>
-                    <p>Pre-registrations and center designs are currently in progress. Stay tuned for Hyderabad's ultimate training upgrade.</p>
-                  </div>
-                </div>
-              )}
+              <div className="footer__map-wrapper">
+                <iframe
+                  src={currentBranch.mapUrl}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={currentBranch.name}
+                  className="footer__map-iframe"
+                ></iframe>
+                <a 
+                  href={currentBranch.directLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="footer__map-btn"
+                >
+                  Open in Google Maps
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
             </div>
 
             {/* Locate Us Info */}
             <div className="footer__locate-info">
               <h2 className="footer__locate-title">Locate Us</h2>
               
-              {/* Branch Selector Dropdown */}
-              <div className="footer__selector-wrapper">
-                <select 
-                  className="footer__branch-select"
-                  value={selectedBranch}
-                  onChange={(e) => setSelectedBranch(e.target.value)}
-                >
-                  <option value="miyapur">Miyapur (Head Office)</option>
-                  <option value="gachibowli">Gachibowli (Coming Soon)</option>
-                </select>
-                <div className="footer__select-arrow">
-                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-                    <path d="M1 1L6 6L11 1" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
-                </div>
-              </div>
-
               {/* Branch Details */}
               <div className="footer__branch-details">
                 {/* Address */}
