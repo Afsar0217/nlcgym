@@ -68,6 +68,32 @@ const TermsContent = () => {
             </ol>
           </div>
         </div>
+
+        <div className="privacy-section">
+          <h2 className="privacy-section__title">POSH Policy</h2>
+          <div className="privacy-section__content">
+            <p>
+              No Limits CrossFit follows a <strong>zero‑tolerance POSH (Prevention of Sexual Harassment) policy</strong>. 
+              Any form of verbal, physical, visual, or digital harassment will lead to <strong>immediate action</strong>, 
+              including termination of membership, as decided by management.
+            </p>
+            <p>
+              Members must maintain <strong>professional behavior and mutual respect</strong> toward trainers, 
+              staff, and fellow members at all times.
+            </p>
+          </div>
+        </div>
+
+        <div className="privacy-section">
+          <h2 className="privacy-section__title">No Fight / Personal Liability Clause</h2>
+          <div className="privacy-section__content">
+            <ul>
+              <li>Fighting, physical aggression, verbal abuse, or arguments inside the gym premises are <strong>strictly prohibited</strong>.</li>
+              <li>Any injury, dispute, or incident arising from <strong>personal negligence, rule violations, or non‑disclosure of medical conditions</strong> shall be the <strong>sole responsibility of the member</strong>.</li>
+              <li>No Limits CrossFit, its trainers, staff, or management <strong>shall not be held responsible</strong> for such incidents.</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   );
