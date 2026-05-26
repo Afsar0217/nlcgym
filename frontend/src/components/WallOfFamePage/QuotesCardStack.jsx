@@ -241,9 +241,20 @@ const QuotesCardStack = () => {
                   <motion.div
                     key={item.id}
                     className={`quotes-stack__card ${isActive ? 'quotes-stack__card--active' : ''}`}
-                    style={{ width: CARD_W, height: CARD_H, zIndex, transformStyle: 'preserve-3d' }}
-                    initial={{ opacity: 0, y: y + 60, x, rotateZ, rotateX, scale }}
-                    animate={{ opacity: 1, x, y: y + lift, rotateZ, rotateX, scale, filter: cardFilter }}
+                    style={{ width: CARD_W, height: CARD_H, zIndex, transformStyle: 'preserve-3d', borderWidth: 2, borderStyle: 'solid' }}
+                    initial={{ opacity: 0, y: y + 60, x, rotateZ, rotateX, scale,
+                      boxShadow: '0 15px 40px rgba(0,0,0,0.5)',
+                      borderColor: 'rgba(255,255,255,0.04)',
+                    }}
+                    animate={{
+                      opacity: 1, x, y: y + lift, rotateZ, rotateX, scale, filter: cardFilter,
+                      boxShadow: isActive
+                        ? '0 0 0 1px rgba(221,48,40,0.15), 0 0 20px rgba(221,48,40,0.2), 0 0 50px rgba(221,48,40,0.1), 0 30px 60px rgba(0,0,0,0.6)'
+                        : '0 15px 40px rgba(0,0,0,0.5)',
+                      borderColor: isActive
+                        ? 'rgba(221,48,40,0.7)'
+                        : 'rgba(255,255,255,0.04)',
+                    }}
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ type: 'spring', ...SPRING }}
                     /* Desktop only: click inactive card to select it */
