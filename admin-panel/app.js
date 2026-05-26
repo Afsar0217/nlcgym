@@ -362,7 +362,7 @@ function renderCoaches() {
               <td>${c.title}</td>
               <td>${c.specialty || '—'}</td>
               <td><span class="badge ${c.is_active ? 'badge-active' : 'badge-inactive'}">${c.is_active ? 'Active' : 'Inactive'}</span></td>
-              <td>
+              <td style="white-space: nowrap;">
                 <button class="btn btn-secondary btn-sm" onclick="openCoachModal(${c.id})">Edit</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteCoach(${c.id})">Delete</button>
               </td>
@@ -498,7 +498,7 @@ function renderBlogs() {
               <td>${b.category}</td>
               <td><span class="badge ${b.is_published ? 'badge-published' : 'badge-draft'}">${b.is_published ? 'Published' : 'Draft'}</span></td>
               <td>${b.is_featured ? '<span class="badge badge-featured">Featured</span>' : '—'}</td>
-              <td>
+              <td style="white-space: nowrap;">
                 <button class="btn btn-secondary btn-sm" onclick="openBlogModal(${b.id})">Edit</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteBlog(${b.id})">Delete</button>
               </td>
@@ -649,7 +649,7 @@ function renderCareers() {
               <td>${c.type}</td>
               <td>${c.location || 'On-site'}</td>
               <td><span class="badge ${c.is_active ? 'badge-active' : 'badge-inactive'}">${c.is_active ? 'Active' : 'Closed'}</span></td>
-              <td>
+              <td style="white-space: nowrap;">
                 <button class="btn btn-secondary btn-sm" onclick="openCareerModal(${c.id})">Edit</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteCareer(${c.id})">Delete</button>
               </td>
@@ -883,7 +883,7 @@ function renderTransformations() {
               <td>${'\u2605'.repeat(t.rating || 5)}</td>
               <td>${t.metrics || '\u2014'}</td>
               <td><span class="badge ${t.is_active ? 'badge-active' : 'badge-inactive'}">${t.is_active ? 'Active' : 'Inactive'}</span></td>
-              <td>
+              <td style="white-space: nowrap;">
                 <button class="btn btn-secondary btn-sm" onclick="openTransformationModal(${t.id})">Edit</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteTransformation(${t.id})">Delete</button>
               </td>
