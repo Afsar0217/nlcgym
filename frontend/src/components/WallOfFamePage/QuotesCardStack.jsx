@@ -20,11 +20,10 @@ const quoteItems = Object.keys(globImages).map((key, idx) => {
     "4": 'Your Body Can Do It, Convince Your Mind',
     "5": "Excuses Don't Burn Calories",
     "6": "The Only Bad Workout Is The One That Didn't Happen",
-    "7": 'Work Hard In Silence, Let Success Be The Noise'
+    "7": 'Work Hard In Silence, Let Success Be The Noise',
   };
 
   if (defaultTitles[filename]) title = defaultTitles[filename];
-
   return { id: idx + 1, imageSrc, title };
 });
 
@@ -41,36 +40,48 @@ function signedOffset(i, active, len) {
 }
 
 /* ---- config ---- */
-const CARD_W   = 340;
-const CARD_H   = 480;
-const MAX_VISIBLE  = 7;
-const OVERLAP      = 0.42;
-const SPREAD_DEG   = 42;
-const PERSPECTIVE  = 1100;
-const DEPTH        = 120;
-const TILT_X       = 10;
-const ACTIVE_LIFT  = 20;
-const ACTIVE_SCALE = 1.04;
+const CARD_W        = 340;
+const CARD_H        = 480;
+const MAX_VISIBLE   = 7;
+const OVERLAP       = 0.42;
+const SPREAD_DEG    = 42;
+const PERSPECTIVE   = 1100;
+const DEPTH         = 120;
+const TILT_X        = 10;
+const ACTIVE_LIFT   = 20;
+const ACTIVE_SCALE  = 1.04;
 const INACTIVE_SCALE = 0.92;
-const SPRING = { stiffness: 260, damping: 26 };
+const SPRING        = { stiffness: 260, damping: 26 };
 
-/* ---- Swipe threshold ---- */
-const SWIPE_PX  = 50;   // min px distance to count as swipe
-const SWIPE_VEL = 400;  // min px/s velocity to count as swipe
+/* ---- Mobile swipe thresholds ----
+   SWIPE_MIN_PX  : distance must exceed this to count (filters accidental taps)
+   SWIPE_MAX_MS  : gesture must complete within this window
+   SWIPE_RATIO   : horizontal movement must be > vertical × this ratio
+*/
+const SWIPE_MIN_PX = 40;
+const SWIPE_MAX_MS = 600;
+const SWIPE_RATIO  = 1.5;
+
+/* Detect touch device once at module load – avoids repeated media checks */
+const isTouchDevice = () =>
+  typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
 
 const QuotesCardStack = () => {
-  const len = quoteItems.length;
-  const [active, setActive] = useState(0);
+  const len        = quoteItems.length;
+  const [active, setActive]     = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
   const stageRef   = useRef(null);
 
-  /* Swipe state stored in a ref so gesture handlers never go stale */
-  const swipeRef = useRef({ startX: 0, startY: 0, startTime: 0, active: false });
+  /* Lock: prevents a single touch gesture from firing more than one step */
+  const swipeLock = useRef(false);
 
-  const maxOffset    = Math.floor(MAX_VISIBLE / 2);
-  const cardSpacing  = Math.max(10, Math.round(CARD_W * (1 - OVERLAP)));
-  const stepDeg      = maxOffset > 0 ? SPREAD_DEG / maxOffset : 0;
+  /* Raw touch tracking stored in a ref (no re-renders needed) */
+  const touchRef = useRef({ startX: 0, startY: 0, startTime: 0, tracking: false });
+
+  const maxOffset   = Math.floor(MAX_VISIBLE / 2);
+  const cardSpacing = Math.max(10, Math.round(CARD_W * (1 - OVERLAP)));
+  const stepDeg     = maxOffset > 0 ? SPREAD_DEG / maxOffset : 0;
 
   /* ---------- intersection observer ---------- */
   useEffect(() => {
@@ -82,7 +93,7 @@ const QuotesCardStack = () => {
     return () => observer.disconnect();
   }, []);
 
-  /* ---------- navigation ---------- */
+  /* ---------- navigation (always moves exactly 1 step) ---------- */
   const prev = useCallback(() => setActive(a => wrapIndex(a - 1, len)), [len]);
   const next = useCallback(() => setActive(a => wrapIndex(a + 1, len)), [len]);
 
@@ -91,53 +102,61 @@ const QuotesCardStack = () => {
     if (e.key === 'ArrowRight') next();
   };
 
-  /* ---------- Touch events on the full stage ---------- */
-  /* We use passive: false on touchstart so we can call
-     preventDefault if the swipe is horizontal (prevents page scroll). */
+  /* ---------- Touch swipe – attached to the full stage ---------- */
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
 
+    /* touchstart: record origin, reset lock */
     const onTouchStart = (e) => {
-      const t = e.touches[0];
-      swipeRef.current = {
-        startX:    t.clientX,
-        startY:    t.clientY,
+      if (e.touches.length !== 1) return; // ignore multi-touch
+      swipeLock.current = false;
+      touchRef.current = {
+        startX:    e.touches[0].clientX,
+        startY:    e.touches[0].clientY,
         startTime: Date.now(),
-        active:    true,
+        tracking:  true,
       };
     };
 
+    /* touchmove: lock vertical scroll only when clearly horizontal */
     const onTouchMove = (e) => {
-      if (!swipeRef.current.active) return;
-      const dx = e.touches[0].clientX - swipeRef.current.startX;
-      const dy = e.touches[0].clientY - swipeRef.current.startY;
-      /* If mostly horizontal, block the vertical scroll on the stage */
-      if (Math.abs(dx) > Math.abs(dy)) {
-        e.preventDefault();
+      if (!touchRef.current.tracking) return;
+      const dx = Math.abs(e.touches[0].clientX - touchRef.current.startX);
+      const dy = Math.abs(e.touches[0].clientY - touchRef.current.startY);
+      if (dx > dy && dx > 8) {          // clearly horizontal & past dead-zone
+        e.preventDefault();             // stop page from scrolling
       }
     };
 
+    /* touchend: evaluate the gesture, advance exactly one step */
     const onTouchEnd = (e) => {
-      if (!swipeRef.current.active) return;
-      const { startX, startY, startTime } = swipeRef.current;
-      swipeRef.current.active = false;
+      if (!touchRef.current.tracking) return;
+      touchRef.current.tracking = false;
 
-      const t  = e.changedTouches[0];
-      const dx = t.clientX - startX;
-      const dy = t.clientY - startY;
-      const dt = Math.max(Date.now() - startTime, 1);
-      const vx = Math.abs(dx) / dt * 1000; // px/s
+      /* If another step was already triggered this gesture, bail out */
+      if (swipeLock.current) return;
 
-      /* Only treat as a horizontal swipe if horizontal > vertical */
-      if (Math.abs(dx) <= Math.abs(dy)) return;
+      const { startX, startY, startTime } = touchRef.current;
+      const touch = e.changedTouches[0];
+      const dx = touch.clientX - startX;
+      const dy = touch.clientY - startY;
+      const dt = Date.now() - startTime;
 
-      if (dx > SWIPE_PX || vx > SWIPE_VEL) prev();
-      else if (dx < -SWIPE_PX || (vx > SWIPE_VEL && dx < 0)) next();
+      /* Reject if: too slow, too short, or more vertical than horizontal */
+      if (dt > SWIPE_MAX_MS) return;
+      if (Math.abs(dx) < SWIPE_MIN_PX) return;
+      if (Math.abs(dx) < Math.abs(dy) * SWIPE_RATIO) return;
+
+      /* Lock so no further step fires for this gesture */
+      swipeLock.current = true;
+
+      if (dx > 0) prev();   // swipe right → previous
+      else        next();   // swipe left  → next
     };
 
     stage.addEventListener('touchstart', onTouchStart, { passive: true });
-    stage.addEventListener('touchmove',  onTouchMove,  { passive: false }); // needs preventDefault
+    stage.addEventListener('touchmove',  onTouchMove,  { passive: false });
     stage.addEventListener('touchend',   onTouchEnd,   { passive: true });
 
     return () => {
@@ -147,21 +166,23 @@ const QuotesCardStack = () => {
     };
   }, [prev, next]);
 
-  /* ---------- Mouse drag (desktop) on active card ---------- */
+  /* ---------- Mouse drag on active card (desktop only) ---------- */
   const dragRef = useRef(null);
 
   const handlePointerDown = (e) => {
+    if (e.pointerType === 'touch') return; // touch is handled above
     dragRef.current = { x: e.clientX, time: Date.now() };
   };
 
   const handlePointerUp = (e) => {
+    if (e.pointerType === 'touch') return;
     if (!dragRef.current) return;
     const dx = e.clientX - dragRef.current.x;
     const dt = Math.max(Date.now() - dragRef.current.time, 1);
     const vx = Math.abs(dx) / dt * 1000;
     const threshold = Math.min(140, CARD_W * 0.2);
 
-    if      (dx > threshold || vx > 700)            prev();
+    if      (dx >  threshold || vx > 700)            prev();
     else if (dx < -threshold || (vx > 700 && dx < 0)) next();
     dragRef.current = null;
   };
@@ -171,7 +192,7 @@ const QuotesCardStack = () => {
     <section className="quotes-stack" ref={sectionRef}>
       <div className={`quotes-stack__container ${isVisible ? 'quotes-stack--visible' : ''}`}>
 
-        {/* ── Header – matches MemberWords / WoF page style ── */}
+        {/* Header */}
         <div className="quotes-stack__header">
           <h2 className="quotes-stack__title">Wall Quotes</h2>
           <div className="quotes-stack__header-right">
@@ -182,7 +203,7 @@ const QuotesCardStack = () => {
           </div>
         </div>
 
-        {/* ── Stage ── */}
+        {/* Stage */}
         <div
           className="quotes-stack__stage"
           style={{ height: Math.max(460, CARD_H + 100), cursor: 'grab', touchAction: 'pan-y' }}
@@ -199,8 +220,8 @@ const QuotesCardStack = () => {
           >
             <AnimatePresence initial={false}>
               {quoteItems.map((item, i) => {
-                const off     = signedOffset(i, active, len);
-                const abs     = Math.abs(off);
+                const off      = signedOffset(i, active, len);
+                const abs      = Math.abs(off);
                 if (abs > maxOffset) return null;
 
                 const rotateZ    = off * stepDeg;
@@ -225,7 +246,11 @@ const QuotesCardStack = () => {
                     animate={{ opacity: 1, x, y: y + lift, rotateZ, rotateX, scale, filter: cardFilter }}
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ type: 'spring', ...SPRING }}
-                    onClick={() => { if (!isActive) setActive(i); }}
+                    /* Desktop only: click inactive card to select it */
+                    onClick={() => {
+                      if (!isActive && !isTouchDevice()) setActive(i);
+                    }}
+                    /* Desktop only: pointer drag on active card */
                     onPointerDown={isActive ? handlePointerDown : undefined}
                     onPointerUp={isActive   ? handlePointerUp   : undefined}
                   >
@@ -249,7 +274,7 @@ const QuotesCardStack = () => {
           </div>
         </div>
 
-        {/* ── Dots & Arrows ── */}
+        {/* Dots & Arrows */}
         <div className="quotes-stack__nav">
           <button className="quotes-stack__arrow" onClick={prev} aria-label="Previous quote">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
