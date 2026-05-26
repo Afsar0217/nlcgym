@@ -185,12 +185,10 @@ const QuotesCardStack = () => {
         {/* ── Stage ── */}
         <div
           className="quotes-stack__stage"
-          style={{ height: Math.max(460, CARD_H + 100) }}
+          style={{ height: Math.max(460, CARD_H + 100), cursor: 'grab', touchAction: 'pan-y' }}
           tabIndex={0}
           onKeyDown={onKeyDown}
           ref={stageRef}
-          /* cursor hint on desktop */
-          style={{ height: Math.max(460, CARD_H + 100), cursor: 'grab', touchAction: 'pan-y' }}
         >
           <div className="quotes-stack__glow quotes-stack__glow--top"    aria-hidden="true" />
           <div className="quotes-stack__glow quotes-stack__glow--bottom" aria-hidden="true" />
