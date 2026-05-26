@@ -2,7 +2,6 @@ import WofHero from '../components/WallOfFamePage/WofHero';
 import HallOfFameSection from '../components/HallOfFameSection';
 import WofServices from '../components/WallOfFamePage/WofServices';
 import QuotesCardStack from '../components/WallOfFamePage/QuotesCardStack';
-import MemberWords from '../components/WallOfFamePage/MemberWords';
 import BridgeSection from '../components/BridgeSection';
 import useSEO from '../hooks/useSEO';
 
@@ -19,7 +18,6 @@ const WallOfFamePage = () => {
         <HallOfFameSection />
         <WofServices />
         <QuotesCardStack />
-        <MemberWords />
         <BridgeSection />
       </div>
     </div>

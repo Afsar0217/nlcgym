@@ -38,7 +38,7 @@ const Footer = () => {
     address: 'Plot no 792, beside Rl City, opp. Bus Body Building, Mayuri Nagar, Nizampet, Miyapur, Hyderabad, Telangana 500049',
     phone: '+91 77803 48640',
     email: 'nolimitscrossfitgym@gmail.com',
-    mapUrl: 'https://maps.google.com/maps?q=Plot+no+792,+Mayuri+Nagar,+Nizampet,+Miyapur,+Hyderabad,+Telangana&t=&z=16&ie=UTF8&iwloc=B&output=embed',
+    mapUrl: 'https://maps.google.com/maps?q=17.5145335,78.3727529&t=&z=17&ie=UTF8&iwloc=B&output=embed',
     directLink: 'https://maps.app.goo.gl/UgpVJY7ask4PLGoK9'
   };
 

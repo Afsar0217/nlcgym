@@ -64,7 +64,7 @@ const LocationSection = () => {
             </svg>
           </a>
           <iframe
-            src="https://maps.google.com/maps?q=Plot+no+792,+Mayuri+Nagar,+Nizampet,+Miyapur,+Hyderabad,+Telangana&t=&z=16&ie=UTF8&iwloc=B&output=embed"
+            src="https://maps.google.com/maps?q=17.5145335,78.3727529&t=&z=17&ie=UTF8&iwloc=B&output=embed"
             width="100%"
             height="100%"
             style={{ border: 0 }}
