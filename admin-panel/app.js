@@ -532,7 +532,7 @@ function renderBlogs() {
 }
 
 async function openBlogModal(id = null) {
-  let blog = { title:'', summary:'', content:'', category:'General', author_name:'NLC Team', author_bio:'', reading_time:'5 min', is_featured:false, is_published:true };
+  let blog = { title:'', summary:'', content:'', category:'General', author_name:'NLC Team', author_bio:'', reading_time:'5 min', meta_description: '', meta_keywords: '', is_featured:false, is_published:true };
   if (id) {
     try { blog = await api(`/blogs/${id}`); } catch(e) { showToast(e.message,'error'); return; }
   }
@@ -561,6 +561,16 @@ async function openBlogModal(id = null) {
         <div class="form-row">
           <div class="form-group"><label>Author Name</label><input name="author_name" value="${blog.author_name || 'NLC Team'}"></div>
           <div class="form-group"><label>Author Bio</label><input name="author_bio" value="${(blog.author_bio || '').replace(/"/g, '&quot;')}"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Meta Description <small style="color:gray; font-weight:normal;">(For SEO, max 160 chars)</small></label>
+            <textarea name="meta_description" style="min-height:50px">${(blog.meta_description || '').replace(/"/g, '&quot;')}</textarea>
+          </div>
+          <div class="form-group">
+            <label>Meta Keywords <small style="color:gray; font-weight:normal;">(Comma separated)</small></label>
+            <input name="meta_keywords" value="${(blog.meta_keywords || '').replace(/"/g, '&quot;')}">
+          </div>
         </div>
         <div class="form-group"><label>Hero Image ${id ? '(leave empty to keep current)' : ''}</label><input type="file" name="image" accept="image/*"></div>
         <div class="form-row">

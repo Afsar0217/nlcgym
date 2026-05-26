@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const useSEO = (title, description) => {
+const useSEO = (title, description, keywords) => {
   useEffect(() => {
     // Update title
     document.title = title;
@@ -10,13 +10,25 @@ const useSEO = (title, description) => {
     if (metaDescription) {
       metaDescription.setAttribute('content', description);
     } else {
-      // If meta tag doesn't exist for some reason, create it
       metaDescription = document.createElement('meta');
       metaDescription.name = 'description';
       metaDescription.content = description;
       document.head.appendChild(metaDescription);
     }
-  }, [title, description]);
+
+    // Update meta keywords if provided
+    if (keywords) {
+      let metaKeywords = document.querySelector('meta[name="keywords"]');
+      if (metaKeywords) {
+        metaKeywords.setAttribute('content', keywords);
+      } else {
+        metaKeywords = document.createElement('meta');
+        metaKeywords.name = 'keywords';
+        metaKeywords.content = keywords;
+        document.head.appendChild(metaKeywords);
+      }
+    }
+  }, [title, description, keywords]);
 };
 
 export default useSEO;

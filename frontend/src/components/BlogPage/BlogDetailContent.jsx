@@ -12,7 +12,8 @@ const BlogDetailContent = () => {
 
   useSEO(
     blog ? `${blog.title} | No Limits CrossFit` : "No Limits CrossFit Blog",
-    blog && (blog.summary || blog.content) ? (blog.summary || blog.content).substring(0, 155) : "Read expert fitness, crossfit, and weight loss insights from No Limits CrossFit in Hyderabad."
+    blog ? (blog.meta_description || blog.summary || blog.content?.substring(0, 155)) : "Read expert fitness, crossfit, and weight loss insights from No Limits CrossFit in Hyderabad.",
+    blog ? (blog.meta_keywords || "crossfit, gym, fitness, hyderabad, weight loss") : ""
   );
 
   const handleGoBack = () => {
