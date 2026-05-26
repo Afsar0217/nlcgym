@@ -14,7 +14,7 @@
   padding: 0 80px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 48px;
   opacity: 0;
   transform: translateY(40px);
@@ -26,40 +26,50 @@
   transform: translateY(0);
 }
 
-/* ===== HEADER ===== */
+/* ===== HEADER — matches WoF page section headers ===== */
 .quotes-stack__header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+}
+
+.quotes-stack__title {
+  font-family: 'Exo', sans-serif;
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(89.85deg, #FFFFFF 21.52%, #FF857F 95.15%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.quotes-stack__header-right {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-end;
   gap: 12px;
+  max-width: 300px;
+  text-align: right;
 }
 
 .quotes-stack__tag {
   font-family: 'Inter Tight', sans-serif;
   font-weight: 500;
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 16px;
+  color: #FFFFFF;
   text-transform: uppercase;
 }
 
-.quotes-stack__title {
-  font-family: 'Exo', sans-serif;
-  font-weight: 800;
-  font-size: 48px;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: #FFFFFF;
-}
-
-.quotes-stack__subtitle {
+.quotes-stack__header-desc {
   font-family: 'Inter Tight', sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.5);
-  max-width: 480px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #FF3A3A;
 }
 
 /* ===== STAGE ===== */
@@ -67,9 +77,10 @@
   position: relative;
   width: 100%;
   outline: none;
-  /* prevent text selection during drag */
   user-select: none;
   -webkit-user-select: none;
+  /* allow vertical scroll pass-through; horizontal swipe handled by JS */
+  touch-action: pan-y;
 }
 
 .quotes-stack__glow {
@@ -235,12 +246,19 @@
     gap: 36px;
   }
 
-  .quotes-stack__title {
-    font-size: 32px;
+  .quotes-stack__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
   }
 
-  .quotes-stack__subtitle {
-    font-size: 14px;
+  .quotes-stack__header-right {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .quotes-stack__title {
+    font-size: 32px;
   }
 }
 
