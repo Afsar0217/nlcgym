@@ -185,6 +185,7 @@ const Footer = () => {
               <Link to="/wall-of-fame" className="footer__links-item">Success Stories</Link>
               <Link to="/career" className="footer__links-item">Join Our Team</Link>
               <Link to="/terms-and-conditions" className="footer__links-item">Terms & Conditions</Link>
+              <Link to="/privacy-policy" className="footer__links-item">Privacy Policy</Link>
             </div>
           </div>
 

@@ -10,6 +10,7 @@ import BlogPage from './pages/BlogPage';
 import BlogDetailPage from './pages/BlogDetailPage';
 import CareerPage from './pages/CareerPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import RealPrivacyPolicyPage from './pages/RealPrivacyPolicyPage';
 import GetFitPage from './pages/GetFitPage';
 import { getCoaches, getBlogs, getTransformations, getGoogleReviews } from './api';
 
@@ -118,6 +119,7 @@ function AppContent() {
             <Route path="/blog/:id" element={<BlogDetailPage />} />
             <Route path="/career" element={<CareerPage />} />
             <Route path="/terms-and-conditions" element={<PrivacyPolicyPage />} />
+            <Route path="/privacy-policy" element={<RealPrivacyPolicyPage />} />
             <Route path="/get-fit" element={<GetFitPage />} />
           </Routes>
         </main>
