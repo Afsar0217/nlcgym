@@ -63,6 +63,8 @@ const db = require('./config/db');
 (async () => {
   try {
     console.log('Running automatic schema migrations...');
+
+    // Enquiries table updates
     await db.query(`
       ALTER TABLE enquiries 
       ADD COLUMN IF NOT EXISTS age VARCHAR(10),
@@ -71,9 +73,18 @@ const db = require('./config/db');
       ADD COLUMN IF NOT EXISTS fitness_goals VARCHAR(255);
     `);
     await db.query(`ALTER TABLE enquiries DROP COLUMN IF EXISTS plan_type;`);
-    console.log('Migrations completed successfully.');
+
+    // Blogs table SEO + alt text updates
+    await db.query(`
+      ALTER TABLE blogs
+      ADD COLUMN IF NOT EXISTS meta_description TEXT,
+      ADD COLUMN IF NOT EXISTS meta_keywords TEXT,
+      ADD COLUMN IF NOT EXISTS image_alt TEXT;
+    `);
+
+    console.log('✅ All migrations completed successfully.');
   } catch (err) {
-    console.error('Migration error:', err);
+    console.error('❌ Migration error:', err);
   }
 })();
 
