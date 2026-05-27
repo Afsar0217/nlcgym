@@ -605,32 +605,43 @@ async function openBlogModal(id = null) {
   document.getElementById('blog-modal-cancel-btn').addEventListener('click', closeBlogModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeBlogModal(); });
 
-  // Initialize CKEditor after modal is in DOM
-  if (window.CKEDITOR) {
-    CKEDITOR.replace('blog-content-editor', {
-      height: 380,
-      removePlugins: 'elementspath',
-      toolbar: [
-        { name: 'clipboard',   items: ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'] },
-        { name: 'editing',     items: ['Find','Replace','-','SelectAll','-','Scayt'] },
-        { name: 'links',       items: ['Link','Unlink','Anchor'] },
-        { name: 'insert',      items: ['Image','Table','HorizontalRule','SpecialChar','PageBreak'] },
-        '/',
-        { name: 'basicstyles', items: ['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'] },
-        { name: 'paragraph',   items: ['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
-        { name: 'styles',      items: ['Styles','Format','Font','FontSize'] },
-        { name: 'colors',      items: ['TextColor','BGColor'] },
-        { name: 'tools',       items: ['Maximize','ShowBlocks','Source'] },
-      ],
-      filebrowserImageUploadUrl: `${ADMIN_API}/blogs/upload-image`,
-      filebrowserUploadMethod: 'form',
-      extraAllowedContent: 'img[*]{*}(*); table[*]{*}(*); td[*]{*}(*); th[*]{*}(*); tr[*]{*}(*); p[*]{*}(*); span[*]{*}(*); div[*]{*}(*)',
-      contentsCss: [
-        'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
-        'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.7; color: #1a1a1a; padding: 12px 16px; }'
-      ]
-    });
+  // Initialize CKEditor — retry up to 30 times (3s) in case CDN is still loading
+  let ckAttempts = 0;
+  function initCKEditor() {
+    if (typeof CKEDITOR !== 'undefined') {
+      // Safe: destroy any orphaned instance before replacing
+      if (CKEDITOR.instances['blog-content-editor']) {
+        CKEDITOR.instances['blog-content-editor'].destroy(true);
+      }
+      CKEDITOR.replace('blog-content-editor', {
+        height: 400,
+        removePlugins: 'elementspath',
+        toolbar: [
+          { name: 'clipboard',   items: ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'] },
+          { name: 'links',       items: ['Link','Unlink','Anchor'] },
+          { name: 'insert',      items: ['Image','Table','HorizontalRule','SpecialChar'] },
+          '/',
+          { name: 'basicstyles', items: ['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'] },
+          { name: 'paragraph',   items: ['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
+          { name: 'styles',      items: ['Styles','Format','Font','FontSize'] },
+          { name: 'colors',      items: ['TextColor','BGColor'] },
+          { name: 'tools',       items: ['Maximize','Source'] },
+        ],
+        extraAllowedContent: 'img[*]{*}(*); table[*]{*}(*); td[*]{*}(*); th[*]{*}(*); tr[*]{*}(*); p[*]{*}(*); span[*]{*}(*); div[*]{*}(*)',
+        contentsCss: [
+          'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
+          'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.7; color: #1a1a1a; padding: 12px 16px; }'
+        ]
+      });
+    } else if (ckAttempts < 30) {
+      ckAttempts++;
+      setTimeout(initCKEditor, 100);
+    } else {
+      console.warn('CKEditor CDN failed to load after 3 seconds. Falling back to plain textarea.');
+    }
   }
+  // Small delay to let the browser paint the modal before CKEditor measures it
+  setTimeout(initCKEditor, 50);
 }
 
 async function saveBlog(e, id) {
