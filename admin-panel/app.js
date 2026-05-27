@@ -40,6 +40,9 @@ let state = {
   loading: false,
 };
 
+// Global rich-text editor instance (Quill)
+let _blogQuill = null;
+
 // ─── API HELPERS ─────────────────────────────────────
 
 async function api(endpoint, options = {}) {
@@ -537,10 +540,8 @@ async function openBlogModal(id = null) {
     try { blog = await api(`/blogs/${id}`); } catch(e) { showToast(e.message,'error'); return; }
   }
 
-  // Destroy any existing CKEditor instance before creating a new modal
-  if (window.CKEDITOR && CKEDITOR.instances['blog-content-editor']) {
-    CKEDITOR.instances['blog-content-editor'].destroy(true);
-  }
+  // Clean up any previous Quill instance
+  _blogQuill = null;
 
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
@@ -554,8 +555,8 @@ async function openBlogModal(id = null) {
         <div class="form-group"><label>Title</label><input name="title" value="${(blog.title || '').replace(/"/g, '&quot;')}" required></div>
         <div class="form-group"><label>Summary</label><textarea name="summary" style="min-height:60px">${blog.summary || ''}</textarea></div>
         <div class="form-group">
-          <label>Content <small style="color:gray;font-weight:normal;">(Use the toolbar below to format text, insert images, tables, etc.)</small></label>
-          <textarea id="blog-content-editor" name="content">${blog.content || ''}</textarea>
+          <label>Content <small style="color:gray;font-weight:normal;">(Use the toolbar to format text, insert images, tables and more)</small></label>
+          <div id="blog-quill-editor" style="background:#fff; min-height:320px; font-size:15px;"></div>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -594,54 +595,51 @@ async function openBlogModal(id = null) {
   `;
   document.body.appendChild(modal);
 
-  // Helper to cleanly close modal + destroy editor
+  // Close helpers
   function closeBlogModal() {
-    if (window.CKEDITOR && CKEDITOR.instances['blog-content-editor']) {
-      CKEDITOR.instances['blog-content-editor'].destroy(true);
-    }
+    _blogQuill = null;
     modal.remove();
   }
   document.getElementById('blog-modal-close-x').addEventListener('click', closeBlogModal);
   document.getElementById('blog-modal-cancel-btn').addEventListener('click', closeBlogModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeBlogModal(); });
 
-  // Initialize CKEditor — retry up to 30 times (3s) in case CDN is still loading
-  let ckAttempts = 0;
-  function initCKEditor() {
-    if (typeof CKEDITOR !== 'undefined') {
-      // Safe: destroy any orphaned instance before replacing
-      if (CKEDITOR.instances['blog-content-editor']) {
-        CKEDITOR.instances['blog-content-editor'].destroy(true);
-      }
-      CKEDITOR.replace('blog-content-editor', {
-        height: 400,
-        removePlugins: 'elementspath',
-        toolbar: [
-          { name: 'clipboard',   items: ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'] },
-          { name: 'links',       items: ['Link','Unlink','Anchor'] },
-          { name: 'insert',      items: ['Image','Table','HorizontalRule','SpecialChar'] },
-          '/',
-          { name: 'basicstyles', items: ['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'] },
-          { name: 'paragraph',   items: ['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
-          { name: 'styles',      items: ['Styles','Format','Font','FontSize'] },
-          { name: 'colors',      items: ['TextColor','BGColor'] },
-          { name: 'tools',       items: ['Maximize','Source'] },
+  // ── Initialise Quill (free, MIT, no license key needed) ──────────────────
+  _blogQuill = new Quill('#blog-quill-editor', {
+    theme: 'snow',
+    modules: {
+      toolbar: {
+        container: [
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ 'font': [] }, { 'size': ['small', false, 'large', 'huge'] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'indent': '-1' }, { 'indent': '+1' }],
+          [{ 'align': [] }],
+          ['blockquote', 'code-block'],
+          ['link', 'image'],
+          ['clean']
         ],
-        extraAllowedContent: 'img[*]{*}(*); table[*]{*}(*); td[*]{*}(*); th[*]{*}(*); tr[*]{*}(*); p[*]{*}(*); span[*]{*}(*); div[*]{*}(*)',
-        contentsCss: [
-          'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
-          'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.7; color: #1a1a1a; padding: 12px 16px; }'
-        ]
-      });
-    } else if (ckAttempts < 30) {
-      ckAttempts++;
-      setTimeout(initCKEditor, 100);
-    } else {
-      console.warn('CKEditor CDN failed to load after 3 seconds. Falling back to plain textarea.');
+        handlers: {
+          // Image: prompt for URL so no base64 bloat
+          image: function() {
+            const url = prompt('Paste the image URL (e.g. from Cloudinary):');
+            if (url && url.trim()) {
+              const range = this.quill.getSelection(true);
+              this.quill.insertEmbed(range.index, 'image', url.trim());
+              this.quill.setSelection(range.index + 1);
+            }
+          }
+        }
+      }
     }
+  });
+
+  // Load existing content into Quill
+  if (blog.content) {
+    _blogQuill.clipboard.dangerouslyPasteHTML(0, blog.content);
   }
-  // Small delay to let the browser paint the modal before CKEditor measures it
-  setTimeout(initCKEditor, 50);
 }
 
 async function saveBlog(e, id) {
@@ -650,12 +648,11 @@ async function saveBlog(e, id) {
   const submitBtn = form.querySelector('button[type="submit"]');
   setButtonLoading(submitBtn, true);
 
-  // Sync CKEditor content back into the textarea before FormData reads it
-  if (window.CKEDITOR && CKEDITOR.instances['blog-content-editor']) {
-    CKEDITOR.instances['blog-content-editor'].updateElement();
-  }
-
   const formData = new FormData(form);
+
+  // Pull rich-text content from Quill (not from a textarea)
+  const content = _blogQuill ? _blogQuill.root.innerHTML : '';
+  formData.set('content', content);
 
   // Handle checkboxes (unchecked = not in FormData)
   formData.set('is_featured', form.querySelector('[name=is_featured]').checked ? 'true' : 'false');
@@ -665,11 +662,7 @@ async function saveBlog(e, id) {
     const url = id ? `/blogs/${id}` : '/blogs';
     const method = id ? 'PUT' : 'POST';
     await api(url, { method, body: formData });
-
-    // Destroy editor before closing
-    if (window.CKEDITOR && CKEDITOR.instances['blog-content-editor']) {
-      CKEDITOR.instances['blog-content-editor'].destroy(true);
-    }
+    _blogQuill = null;
     document.querySelector('.modal-overlay')?.remove();
     showToast(`Blog ${id ? 'updated' : 'published'} successfully!`);
     navigateTo('blogs');
