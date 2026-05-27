@@ -532,23 +532,31 @@ function renderBlogs() {
 }
 
 async function openBlogModal(id = null) {
-  let blog = { title:'', summary:'', content:'', category:'General', author_name:'NLC Team', author_bio:'', reading_time:'5 min', meta_description: '', meta_keywords: '', is_featured:false, is_published:true };
+  let blog = { title:'', summary:'', content:'', category:'General', author_name:'NLC Team', author_bio:'', image_alt:'', meta_description: '', meta_keywords: '', is_featured:false, is_published:true };
   if (id) {
     try { blog = await api(`/blogs/${id}`); } catch(e) { showToast(e.message,'error'); return; }
+  }
+
+  // Destroy any existing CKEditor instance before creating a new modal
+  if (window.CKEDITOR && CKEDITOR.instances['blog-content-editor']) {
+    CKEDITOR.instances['blog-content-editor'].destroy(true);
   }
 
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
   modal.innerHTML = `
-    <div class="modal" style="max-width:780px">
+    <div class="modal" style="max-width:860px">
       <div class="modal-header">
         <h2>${id ? 'Edit' : 'Create'} Blog Post</h2>
-        <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+        <button class="modal-close" id="blog-modal-close-x">×</button>
       </div>
-      <form onsubmit="saveBlog(event, ${id})">
+      <form onsubmit="saveBlog(event, ${id})" id="blog-modal-form">
         <div class="form-group"><label>Title</label><input name="title" value="${(blog.title || '').replace(/"/g, '&quot;')}" required></div>
         <div class="form-group"><label>Summary</label><textarea name="summary" style="min-height:60px">${blog.summary || ''}</textarea></div>
-        <div class="form-group"><label>Content (HTML)</label><textarea name="content" style="min-height:240px">${(blog.content || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea></div>
+        <div class="form-group">
+          <label>Content <small style="color:gray;font-weight:normal;">(Use the toolbar below to format text, insert images, tables, etc.)</small></label>
+          <textarea id="blog-content-editor" name="content">${blog.content || ''}</textarea>
+        </div>
         <div class="form-row">
           <div class="form-group">
             <label>Category</label>
@@ -556,7 +564,7 @@ async function openBlogModal(id = null) {
               ${['General','Transformations','Workouts','Food','Recovery','Mindset'].map(c => `<option value="${c}" ${blog.category===c?'selected':''}>${c}</option>`).join('')}
             </select>
           </div>
-          <div class="form-group"><label>Reading Time</label><input name="reading_time" value="${blog.reading_time || '5 min'}"></div>
+          <div class="form-group"><label>Image Alt Text <small style="color:gray;font-weight:normal;">(For SEO)</small></label><input name="image_alt" value="${(blog.image_alt || '').replace(/"/g, '&quot;')}" placeholder="e.g. CrossFit athlete doing deadlift"></div>
         </div>
         <div class="form-row">
           <div class="form-group"><label>Author Name</label><input name="author_name" value="${blog.author_name || 'NLC Team'}"></div>
@@ -578,13 +586,51 @@ async function openBlogModal(id = null) {
           <div class="form-group"><label class="form-checkbox"><input type="checkbox" name="is_published" ${blog.is_published ? 'checked' : ''}> Published</label></div>
         </div>
         <div class="modal-actions">
-          <button type="button" class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+          <button type="button" class="btn btn-secondary" id="blog-modal-cancel-btn">Cancel</button>
           <button type="submit" class="btn btn-primary">${id ? 'Update' : 'Publish'} Blog</button>
         </div>
       </form>
     </div>
   `;
   document.body.appendChild(modal);
+
+  // Helper to cleanly close modal + destroy editor
+  function closeBlogModal() {
+    if (window.CKEDITOR && CKEDITOR.instances['blog-content-editor']) {
+      CKEDITOR.instances['blog-content-editor'].destroy(true);
+    }
+    modal.remove();
+  }
+  document.getElementById('blog-modal-close-x').addEventListener('click', closeBlogModal);
+  document.getElementById('blog-modal-cancel-btn').addEventListener('click', closeBlogModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeBlogModal(); });
+
+  // Initialize CKEditor after modal is in DOM
+  if (window.CKEDITOR) {
+    CKEDITOR.replace('blog-content-editor', {
+      height: 380,
+      removePlugins: 'elementspath',
+      toolbar: [
+        { name: 'clipboard',   items: ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'] },
+        { name: 'editing',     items: ['Find','Replace','-','SelectAll','-','Scayt'] },
+        { name: 'links',       items: ['Link','Unlink','Anchor'] },
+        { name: 'insert',      items: ['Image','Table','HorizontalRule','SpecialChar','PageBreak'] },
+        '/',
+        { name: 'basicstyles', items: ['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'] },
+        { name: 'paragraph',   items: ['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
+        { name: 'styles',      items: ['Styles','Format','Font','FontSize'] },
+        { name: 'colors',      items: ['TextColor','BGColor'] },
+        { name: 'tools',       items: ['Maximize','ShowBlocks','Source'] },
+      ],
+      filebrowserImageUploadUrl: `${ADMIN_API}/blogs/upload-image`,
+      filebrowserUploadMethod: 'form',
+      extraAllowedContent: 'img[*]{*}(*); table[*]{*}(*); td[*]{*}(*); th[*]{*}(*); tr[*]{*}(*); p[*]{*}(*); span[*]{*}(*); div[*]{*}(*)',
+      contentsCss: [
+        'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
+        'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.7; color: #1a1a1a; padding: 12px 16px; }'
+      ]
+    });
+  }
 }
 
 async function saveBlog(e, id) {
@@ -592,27 +638,32 @@ async function saveBlog(e, id) {
   const form = e.target;
   const submitBtn = form.querySelector('button[type="submit"]');
   setButtonLoading(submitBtn, true);
+
+  // Sync CKEditor content back into the textarea before FormData reads it
+  if (window.CKEDITOR && CKEDITOR.instances['blog-content-editor']) {
+    CKEDITOR.instances['blog-content-editor'].updateElement();
+  }
+
   const formData = new FormData(form);
-  
+
   // Handle checkboxes (unchecked = not in FormData)
   formData.set('is_featured', form.querySelector('[name=is_featured]').checked ? 'true' : 'false');
   formData.set('is_published', form.querySelector('[name=is_published]').checked ? 'true' : 'false');
 
-  // Decode HTML entities back for content
-  const contentEl = form.querySelector('[name=content]');
-  formData.set('content', contentEl.value);
-
   try {
     const url = id ? `/blogs/${id}` : '/blogs';
     const method = id ? 'PUT' : 'POST';
-
     await api(url, { method, body: formData });
-    
-    document.querySelector('.modal-overlay').remove();
+
+    // Destroy editor before closing
+    if (window.CKEDITOR && CKEDITOR.instances['blog-content-editor']) {
+      CKEDITOR.instances['blog-content-editor'].destroy(true);
+    }
+    document.querySelector('.modal-overlay')?.remove();
     showToast(`Blog ${id ? 'updated' : 'published'} successfully!`);
     navigateTo('blogs');
-  } catch(err) { 
-    showToast(err.message, 'error'); 
+  } catch(err) {
+    showToast(err.message, 'error');
   } finally {
     setButtonLoading(submitBtn, false);
   }

@@ -136,7 +136,7 @@ const BlogDetailContent = () => {
 
         {/* Hero Image */}
         <div className="blog-detail-hero">
-          <img src={blog.image_url || '/images/rectangle.png'} alt={blog.title} />
+          <img src={blog.image_url || '/images/rectangle.png'} alt={blog.image_alt || blog.title} />
         </div>
 
         {/* Content Body */}

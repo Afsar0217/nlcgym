@@ -38,8 +38,8 @@ const getBlogs = async (req, res, next) => {
   try {
     const { category, featured, limit = 50, offset = 0 } = req.query;
 
-    let query = `SELECT id, title, slug, summary, image_url, category, author_name,
-                        reading_time, meta_description, meta_keywords, is_featured, published_at
+    let query = `SELECT id, title, slug, summary, image_url, image_alt, category, author_name,
+                        meta_description, meta_keywords, is_featured, published_at
                  FROM blogs WHERE is_published = true`;
     const params = [];
     let paramIndex = 1;
@@ -146,15 +146,15 @@ const getBlogById = async (req, res, next) => {
  */
 const createBlog = async (req, res, next) => {
   try {
-    const { title, summary, content, category, author_name, author_bio, reading_time, meta_description, meta_keywords, is_featured, is_published } = req.body;
+    const { title, summary, content, category, author_name, author_bio, image_alt, meta_description, meta_keywords, is_featured, is_published } = req.body;
     const image_url = req.file ? await uploadToCloudinary(req.file.buffer, 'blogs') : null;
     const slug = await ensureUniqueSlug(generateSlug(title));
 
     const { rows } = await db.query(
-      `INSERT INTO blogs (title, slug, summary, content, image_url, category, author_name, author_bio, reading_time, meta_description, meta_keywords, is_featured, is_published, published_at)
+      `INSERT INTO blogs (title, slug, summary, content, image_url, image_alt, category, author_name, author_bio, meta_description, meta_keywords, is_featured, is_published, published_at)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
        RETURNING *`,
-      [title, slug, summary, content, image_url, category || 'General', author_name || 'NLC Team', author_bio, reading_time || '5 min',
+      [title, slug, summary, content, image_url, image_alt, category || 'General', author_name || 'NLC Team', author_bio,
        meta_description, meta_keywords,
        is_featured === 'true' || is_featured === true,
        is_published === 'false' ? false : true,
@@ -173,7 +173,7 @@ const createBlog = async (req, res, next) => {
 const updateBlog = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { title, summary, content, category, author_name, author_bio, reading_time, meta_description, meta_keywords, is_featured, is_published } = req.body;
+    const { title, summary, content, category, author_name, author_bio, image_alt, meta_description, meta_keywords, is_featured, is_published } = req.body;
 
     let image_url;
     if (req.file) {
@@ -199,17 +199,17 @@ const updateBlog = async (req, res, next) => {
         summary = COALESCE($3, summary),
         content = COALESCE($4, content),
         image_url = COALESCE($5, image_url),
-        category = COALESCE($6, category),
-        author_name = COALESCE($7, author_name),
-        author_bio = COALESCE($8, author_bio),
-        reading_time = COALESCE($9, reading_time),
+        image_alt = COALESCE($6, image_alt),
+        category = COALESCE($7, category),
+        author_name = COALESCE($8, author_name),
+        author_bio = COALESCE($9, author_bio),
         meta_description = COALESCE($10, meta_description),
         meta_keywords = COALESCE($11, meta_keywords),
         is_featured = COALESCE($12, is_featured),
         is_published = COALESCE($13, is_published)
        WHERE id = $14
        RETURNING *`,
-      [title, slug, summary, content, image_url, category, author_name, author_bio, reading_time, meta_description, meta_keywords,
+      [title, slug, summary, content, image_url, image_alt, category, author_name, author_bio, meta_description, meta_keywords,
        is_featured === 'true' ? true : is_featured === 'false' ? false : undefined,
        is_published === 'true' ? true : is_published === 'false' ? false : undefined,
        id]
