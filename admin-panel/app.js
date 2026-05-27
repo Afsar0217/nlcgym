@@ -40,8 +40,8 @@ let state = {
   loading: false,
 };
 
-// Global rich-text editor instance (Quill)
-let _blogQuill = null;
+// Global rich-text editor instance (CKEditor)
+let _blogCKEditor = null;
 
 // ─── API HELPERS ─────────────────────────────────────
 
@@ -540,8 +540,11 @@ async function openBlogModal(id = null) {
     try { blog = await api(`/blogs/${id}`); } catch(e) { showToast(e.message,'error'); return; }
   }
 
-  // Clean up any previous Quill instance
-  _blogQuill = null;
+  // Destroy any existing CKEditor instance before opening a new modal
+  if (_blogCKEditor) {
+    try { _blogCKEditor.destroy(true); } catch(e) {}
+    _blogCKEditor = null;
+  }
 
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
@@ -556,7 +559,7 @@ async function openBlogModal(id = null) {
         <div class="form-group"><label>Summary</label><textarea name="summary" style="min-height:60px">${blog.summary || ''}</textarea></div>
         <div class="form-group">
           <label>Content <small style="color:gray;font-weight:normal;">(Use the toolbar to format text, insert images, tables and more)</small></label>
-          <div id="blog-quill-editor" style="background:#fff; min-height:320px; font-size:15px;"></div>
+          <textarea id="blog-ck-editor" name="content">${blog.content || ''}</textarea>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -573,11 +576,11 @@ async function openBlogModal(id = null) {
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Meta Description <small style="color:gray; font-weight:normal;">(For SEO, max 160 chars)</small></label>
+            <label>Meta Description <small style="color:gray;font-weight:normal;">(For SEO, max 160 chars)</small></label>
             <textarea name="meta_description" style="min-height:50px">${(blog.meta_description || '').replace(/"/g, '&quot;')}</textarea>
           </div>
           <div class="form-group">
-            <label>Meta Keywords <small style="color:gray; font-weight:normal;">(Comma separated)</small></label>
+            <label>Meta Keywords <small style="color:gray;font-weight:normal;">(Comma separated)</small></label>
             <input name="meta_keywords" value="${(blog.meta_keywords || '').replace(/"/g, '&quot;')}">
           </div>
         </div>
@@ -595,51 +598,40 @@ async function openBlogModal(id = null) {
   `;
   document.body.appendChild(modal);
 
-  // Close helpers
+  // Clean close — destroy editor then remove modal
   function closeBlogModal() {
-    _blogQuill = null;
+    if (_blogCKEditor) {
+      try { _blogCKEditor.destroy(true); } catch(e) {}
+      _blogCKEditor = null;
+    }
     modal.remove();
   }
   document.getElementById('blog-modal-close-x').addEventListener('click', closeBlogModal);
   document.getElementById('blog-modal-cancel-btn').addEventListener('click', closeBlogModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeBlogModal(); });
 
-  // ── Initialise Quill (free, MIT, no license key needed) ──────────────────
-  _blogQuill = new Quill('#blog-quill-editor', {
-    theme: 'snow',
-    modules: {
-      toolbar: {
-        container: [
-          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-          [{ 'font': [] }, { 'size': ['small', false, 'large', 'huge'] }],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ 'color': [] }, { 'background': [] }],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          [{ 'indent': '-1' }, { 'indent': '+1' }],
-          [{ 'align': [] }],
-          ['blockquote', 'code-block'],
-          ['link', 'image'],
-          ['clean']
-        ],
-        handlers: {
-          // Image: prompt for URL so no base64 bloat
-          image: function() {
-            const url = prompt('Paste the image URL (e.g. from Cloudinary):');
-            if (url && url.trim()) {
-              const range = this.quill.getSelection(true);
-              this.quill.insertEmbed(range.index, 'image', url.trim());
-              this.quill.setSelection(range.index + 1);
-            }
-          }
-        }
-      }
-    }
+  // ── CKEditor 4.22.1 (last free version, versionCheck:false silences the banner) ──
+  _blogCKEditor = CKEDITOR.replace('blog-ck-editor', {
+    versionCheck: false,          // <-- silences the security warning banner
+    height: 400,
+    removePlugins: 'elementspath',
+    toolbar: [
+      { name: 'clipboard',   items: ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'] },
+      { name: 'links',       items: ['Link','Unlink','Anchor'] },
+      { name: 'insert',      items: ['Image','Table','HorizontalRule','SpecialChar'] },
+      '/',
+      { name: 'basicstyles', items: ['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'] },
+      { name: 'paragraph',   items: ['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
+      { name: 'styles',      items: ['Styles','Format','Font','FontSize'] },
+      { name: 'colors',      items: ['TextColor','BGColor'] },
+      { name: 'tools',       items: ['Maximize','Source'] },
+    ],
+    extraAllowedContent: 'img[*]{*}(*); table[*]{*}(*); td[*]{*}(*); th[*]{*}(*); tr[*]{*}(*); p[*]{*}(*); span[*]{*}(*); div[*]{*}(*)',
+    contentsCss: [
+      'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
+      'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.7; color: #1a1a1a; padding: 12px 16px; }'
+    ]
   });
-
-  // Load existing content into Quill
-  if (blog.content) {
-    _blogQuill.clipboard.dangerouslyPasteHTML(0, blog.content);
-  }
 }
 
 async function saveBlog(e, id) {
@@ -648,11 +640,12 @@ async function saveBlog(e, id) {
   const submitBtn = form.querySelector('button[type="submit"]');
   setButtonLoading(submitBtn, true);
 
-  const formData = new FormData(form);
+  // Sync CKEditor content into the underlying textarea so FormData picks it up
+  if (_blogCKEditor) {
+    _blogCKEditor.updateElement();
+  }
 
-  // Pull rich-text content from Quill (not from a textarea)
-  const content = _blogQuill ? _blogQuill.root.innerHTML : '';
-  formData.set('content', content);
+  const formData = new FormData(form);
 
   // Handle checkboxes (unchecked = not in FormData)
   formData.set('is_featured', form.querySelector('[name=is_featured]').checked ? 'true' : 'false');
@@ -662,7 +655,11 @@ async function saveBlog(e, id) {
     const url = id ? `/blogs/${id}` : '/blogs';
     const method = id ? 'PUT' : 'POST';
     await api(url, { method, body: formData });
-    _blogQuill = null;
+
+    if (_blogCKEditor) {
+      try { _blogCKEditor.destroy(true); } catch(e) {}
+      _blogCKEditor = null;
+    }
     document.querySelector('.modal-overlay')?.remove();
     showToast(`Blog ${id ? 'updated' : 'published'} successfully!`);
     navigateTo('blogs');
