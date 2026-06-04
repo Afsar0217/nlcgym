@@ -275,13 +275,16 @@
 }
 
 .footer__logo-box {
-  height: 130px;
+  height: 90px;
+  overflow: visible;
 }
 
 .footer__brand-logo {
   height: 100%;
   width: auto;
   object-fit: contain;
+  transform: scale(1.6);
+  transform-origin: left center;
 }
 
 .footer__brand-contacts {
