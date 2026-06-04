@@ -37,7 +37,7 @@ const Navbar = ({ isIntroActive }) => {
     <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''} ${isIntroActive ? 'navbar--hidden' : ''}`} id="navbar">
       <div className="navbar__inner">
         <Link to="/" className="navbar__logo">
-          <img src="/images/nlc_logo.png" alt="No Limits CrossFit" />
+          <img src="/images/new_logo.png" alt="No Limits CrossFit" />
         </Link>
 
         <button className="navbar__hamburger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">

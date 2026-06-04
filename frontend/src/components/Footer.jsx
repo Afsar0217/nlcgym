@@ -138,7 +138,7 @@ const Footer = () => {
           {/* Col 1: Branding & Social */}
           <div className="footer__brand-col">
             <div className="footer__logo-box" onClick={scrollToTop} style={{ cursor: 'pointer' }}>
-              <img src="/images/nlc_logo.png" alt="No Limits CrossFit Logo" className="footer__brand-logo" />
+              <img src="/images/new_logo.png" alt="No Limits CrossFit Logo" className="footer__brand-logo" />
             </div>
             <div className="footer__brand-contacts">
               <a href="tel:+917780348640" className="footer__brand-link">+91 77803 48640</a>
